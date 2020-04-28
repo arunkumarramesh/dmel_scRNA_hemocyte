@@ -385,6 +385,57 @@ cellscompare <- cellscompare[-1,]
 rownames(cellscompare) <- 0:(length(table(Idents(integrate.combined_cellcycle_0.3)))-1)
 write.csv(cellscompare, file = "row_cc_0.3_col_all_0.3.csv", quote = F)
 
+#Treh and Tret1-1 expression levels
+
+pdf("bulkgeneexp_mod_treh.pdf",width = 12, height = 3.5)
+par(mfrow=c(1,3))
+par(mar=c(5,6,4,2)+0.8)
+par(mgp=c(4,1,0))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression('                              No Infection\nFold Change after selection for resistance (log2)'),xlab =expression('Fold change after infection (log2)\n                No Selection'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC,
+       pch = 16, col = "purple")
+text("Treh", font = 3, x = -0.05+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = 0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC, cex = 1.3)
+
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC,
+       pch = 16, col = "magenta")
+text("Tret1-1", font = 3, x = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC, cex = 1.3)
+title("A", adj = 0)
+
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('        Selected for Resistance\nFold Change after infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Selection'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.FC.in.selected.populations,
+       pch = 16, col = "purple")
+text("Treh", font = 3, x = +logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = -0.16+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.FC.in.selected.populations, cex = 1.3)
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.FC.in.selected.populations,
+       pch = 16, col = "magenta")
+text("Tret1-1", font = 3, x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = 0.24+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.FC.in.selected.populations, cex = 1.3)
+title("B", adj = 0)
+
+
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('                  Fold Change after \nselection for resistance and infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Selection'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC,
+       pch = 16, col = "purple")
+text("Treh", font = 3, x = -0+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = -0.2+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC, cex = 1.3)
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC,
+       pch = 16, col = "magenta")
+text("Tret1-1", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = 0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC, cex = 1.3)
+title("C", adj = 0)
+
+dev.off()
 
 ####SECTION 7 - DATA INTEGRATION FOR ESTIMATING MEAN FOLD CHANGE ACROSS DETECTED GENES########
 
@@ -1493,3 +1544,4 @@ clusterplot_sub <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=
   theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
 
 plot_grid(subdimplot,clusterplot_sub, ncol=2, rel_widths = c(1,2))
+

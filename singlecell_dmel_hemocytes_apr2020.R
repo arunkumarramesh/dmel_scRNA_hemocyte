@@ -1,3 +1,4 @@
+library(grid)
 library(gridExtra)
 library(ggplot2)
 library(Seurat)
@@ -15,6 +16,7 @@ library(parsnip)
 library(viridis)
 library(plyr)
 library(rgl)
+library(LSD)
 
 ####SECTION 1 - READING IN DATA FROM CELL RANGER ########
 
@@ -297,56 +299,15 @@ integrate.combined <- RunPCA(integrate.combined, npcs = 50, verbose = FALSE)
 integrate.combined <- RunUMAP(integrate.combined, reduction = "pca", dims = 1:50)
 integrate.combined <- FindNeighbors(integrate.combined, reduction = "pca", dims = 1:50)
 
-integrate.combined_0 <- FindClusters(integrate.combined, resolution = 0)
-integrate.combined_0.01 <- FindClusters(integrate.combined, resolution = 0.01)
-integrate.combined_0.02 <- FindClusters(integrate.combined, resolution = 0.02)
-integrate.combined_0.03 <- FindClusters(integrate.combined, resolution = 0.03)
-integrate.combined_0.04 <- FindClusters(integrate.combined, resolution = 0.04)
-integrate.combined_0.05 <- FindClusters(integrate.combined, resolution = 0.05)
-integrate.combined_0.06 <- FindClusters(integrate.combined, resolution = 0.06)
-integrate.combined_0.07 <- FindClusters(integrate.combined, resolution = 0.07)
-integrate.combined_0.08 <- FindClusters(integrate.combined, resolution = 0.08)
-integrate.combined_0.09 <- FindClusters(integrate.combined, resolution = 0.09)
-integrate.combined_0.1 <- FindClusters(integrate.combined, resolution = 0.1)
-integrate.combined_0.2 <- FindClusters(integrate.combined, resolution = 0.2)
 integrate.combined_0.3 <- FindClusters(integrate.combined, resolution = 0.3)
-integrate.combined_0.4 <- FindClusters(integrate.combined, resolution = 0.4)
-integrate.combined_0.5 <- FindClusters(integrate.combined, resolution = 0.5)
-integrate.combined_0.6 <- FindClusters(integrate.combined, resolution = 0.6)
-integrate.combined_0.7 <- FindClusters(integrate.combined, resolution = 0.7)
-integrate.combined_0.8 <- FindClusters(integrate.combined, resolution = 0.8)
-integrate.combined_0.9 <- FindClusters(integrate.combined, resolution = 0.9)
-integrate.combined_1 <- FindClusters(integrate.combined, resolution = 1)
-
-integrate.combined_0.02$Res.0 <- integrate.combined_0$seurat_clusters
-integrate.combined_0.02$Res.0.01 <- integrate.combined_0.01$seurat_clusters
-integrate.combined_0.02$Res.0.02 <- integrate.combined_0.02$seurat_clusters
-integrate.combined_0.02$Res.0.03 <- integrate.combined_0.03$seurat_clusters
-integrate.combined_0.02$Res.0.04 <- integrate.combined_0.04$seurat_clusters
-integrate.combined_0.02$Res.0.05 <- integrate.combined_0.05$seurat_clusters
-integrate.combined_0.02$Res.0.06 <- integrate.combined_0.06$seurat_clusters
-integrate.combined_0.02$Res.0.07 <- integrate.combined_0.07$seurat_clusters
-integrate.combined_0.02$Res.0.08 <- integrate.combined_0.08$seurat_clusters
-integrate.combined_0.02$Res.0.09 <- integrate.combined_0.09$seurat_clusters
-integrate.combined_0.02$Res.0.1 <- integrate.combined_0.1$seurat_clusters
-integrate.combined_0.02$Res.0.2 <- integrate.combined_0.2$seurat_clusters
-integrate.combined_0.02$Res.0.3 <- integrate.combined_0.3$seurat_clusters
-integrate.combined_0.02$Res.0.4 <- integrate.combined_0.4$seurat_clusters
-integrate.combined_0.02$Res.0.5 <- integrate.combined_0.5$seurat_clusters
-integrate.combined_0.02$Res.0.6 <- integrate.combined_0.6$seurat_clusters
-integrate.combined_0.02$Res.0.7 <- integrate.combined_0.7$seurat_clusters
-integrate.combined_0.02$Res.0.8 <- integrate.combined_0.8$seurat_clusters
-integrate.combined_0.02$Res.0.9 <- integrate.combined_0.9$seurat_clusters
-integrate.combined_0.02$Res.1 <- integrate.combined_1$seurat_clusters
-
-integrate.combined_0.3$poptreat <- gsub("control Infected", "No Selection, Infection", integrate.combined_0.3$poptreat)
-integrate.combined_0.3$poptreat <- gsub("control Uninf", "No Selection, No Infection", integrate.combined_0.3$poptreat)
-integrate.combined_0.3$poptreat <- gsub("NSRef Infected", "Selection, Infection", integrate.combined_0.3$poptreat)
-integrate.combined_0.3$poptreat <- gsub("NSRef Uninf", "Selection, No Infection", integrate.combined_0.3$poptreat)
-integrate.combined_0.3$poptreat <- factor(integrate.combined_0.3$poptreat, levels = c("No Selection, No Infection", "No Selection, Infection", "Selection, No Infection", "Selection, Infection"))
-integrate.combined_0.3$population <- gsub("control", "No Selection", integrate.combined_0.3$population)
-integrate.combined_0.3$population <- gsub("NSRef", "Selection", integrate.combined_0.3$population)
-integrate.combined_0.3$population <- factor(integrate.combined_0.3$population, levels = c("No Selection","Selection"))
+integrate.combined_0.3$poptreat <- gsub("control Infected", "No Parasitism, Infection", integrate.combined_0.3$poptreat)
+integrate.combined_0.3$poptreat <- gsub("control Uninf", "No Parasitism, No Infection", integrate.combined_0.3$poptreat)
+integrate.combined_0.3$poptreat <- gsub("NSRef Infected", "High Parasitism, Infection", integrate.combined_0.3$poptreat)
+integrate.combined_0.3$poptreat <- gsub("NSRef Uninf", "High Parasitism, No Infection", integrate.combined_0.3$poptreat)
+integrate.combined_0.3$poptreat <- factor(integrate.combined_0.3$poptreat, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_0.3$population <- gsub("control", "No Parasitism", integrate.combined_0.3$population)
+integrate.combined_0.3$population <- gsub("NSRef", "High Parasitism", integrate.combined_0.3$population)
+integrate.combined_0.3$population <- factor(integrate.combined_0.3$population, levels = c("No Parasitism","High Parasitism"))
 integrate.combined_0.3$treatment <- gsub("Infected", "Infection", integrate.combined_0.3$treatment)
 integrate.combined_0.3$treatment <- gsub("Uninf", "No Infection", integrate.combined_0.3$treatment)
 integrate.combined_0.3$treatment <- factor(integrate.combined_0.3$treatment, levels = c("No Infection","Infection"))
@@ -387,20 +348,20 @@ for (l in 1:length(lam_markers)){
 do.call("grid.arrange", c(lam_markers_plot_unmod, ncol=2))
 
 
-##ROUND 3 with CC correction
-integrate.combined_cellcycle <- ScaleData(integrate.combined, vars.to.regress = c("S.Score","G2M.Score", "nCount_RNA","nFeature_RNA","percent.mt"), features = rownames(integrate.combined))
+####SECTION 6 - ROUND 3 CLUSTERING WITH CELL CYCLE CORRECTION ########
+integrate.combined_cellcycle <- ScaleData(integrate.combined, vars.to.regress = c("nCount_RNA","nFeature_RNA","percent.mt", "CC.Difference"), features = rownames(integrate.combined))
 integrate.combined_cellcycle <- RunPCA(integrate.combined_cellcycle, npcs = 50, verbose = FALSE)
 integrate.combined_cellcycle <- RunUMAP(integrate.combined_cellcycle, reduction = "pca", dims = 1:50)
 integrate.combined_cellcycle <- FindNeighbors(integrate.combined_cellcycle, reduction = "pca", dims = 1:50)
 integrate.combined_cellcycle_0.3 <- FindClusters(integrate.combined_cellcycle, resolution = 0.3)
-integrate.combined_cellcycle_0.3$poptreat <- gsub("control Infected", "No Selection, Infection", integrate.combined_cellcycle_0.3$poptreat)
-integrate.combined_cellcycle_0.3$poptreat <- gsub("control Uninf", "No Selection, No Infection", integrate.combined_cellcycle_0.3$poptreat)
-integrate.combined_cellcycle_0.3$poptreat <- gsub("NSRef Infected", "Selection, Infection", integrate.combined_cellcycle_0.3$poptreat)
-integrate.combined_cellcycle_0.3$poptreat <- gsub("NSRef Uninf", "Selection, No Infection", integrate.combined_cellcycle_0.3$poptreat)
-integrate.combined_cellcycle_0.3$poptreat <- factor(integrate.combined_cellcycle_0.3$poptreat, levels = c("No Selection, No Infection", "No Selection, Infection", "Selection, No Infection", "Selection, Infection"))
-integrate.combined_cellcycle_0.3$population <- gsub("control", "No Selection", integrate.combined_cellcycle_0.3$population)
-integrate.combined_cellcycle_0.3$population <- gsub("NSRef", "Selection", integrate.combined_cellcycle_0.3$population)
-integrate.combined_cellcycle_0.3$population <- factor(integrate.combined_cellcycle_0.3$population, levels = c("No Selection","Selection"))
+integrate.combined_cellcycle_0.3$poptreat <- gsub("control Infected", "No Parasitism, Infection", integrate.combined_cellcycle_0.3$poptreat)
+integrate.combined_cellcycle_0.3$poptreat <- gsub("control Uninf", "No Parasitism, No Infection", integrate.combined_cellcycle_0.3$poptreat)
+integrate.combined_cellcycle_0.3$poptreat <- gsub("NSRef Infected", "High Parasitism, Infection", integrate.combined_cellcycle_0.3$poptreat)
+integrate.combined_cellcycle_0.3$poptreat <- gsub("NSRef Uninf", "High Parasitism, No Infection", integrate.combined_cellcycle_0.3$poptreat)
+integrate.combined_cellcycle_0.3$poptreat <- factor(integrate.combined_cellcycle_0.3$poptreat, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_cellcycle_0.3$population <- gsub("control", "No Parasitism", integrate.combined_cellcycle_0.3$population)
+integrate.combined_cellcycle_0.3$population <- gsub("NSRef", "High Parasitism", integrate.combined_cellcycle_0.3$population)
+integrate.combined_cellcycle_0.3$population <- factor(integrate.combined_cellcycle_0.3$population, levels = c("No Parasitism","High Parasitism"))
 integrate.combined_cellcycle_0.3$treatment <- gsub("Infected", "Infection", integrate.combined_cellcycle_0.3$treatment)
 integrate.combined_cellcycle_0.3$treatment <- gsub("Uninf", "No Infection", integrate.combined_cellcycle_0.3$treatment)
 integrate.combined_cellcycle_0.3$treatment <- factor(integrate.combined_cellcycle_0.3$treatment, levels = c("No Infection","Infection"))
@@ -422,10 +383,10 @@ for (i in 0:(length(table(Idents(integrate.combined_cellcycle_0.3)))-1)){
 }
 cellscompare <- cellscompare[-1,]
 rownames(cellscompare) <- 0:(length(table(Idents(integrate.combined_cellcycle_0.3)))-1)
-write.csv(cellscompare, file = "row_cc_0.3_col_all_0.3.csv")
+write.csv(cellscompare, file = "row_cc_0.3_col_all_0.3.csv", quote = F)
 
 
-####SECTION 6 - DATA INTEGRATION FOR ESTIMATING MEAN FOLD CHANGE ACROSS DETECTED GENES########
+####SECTION 7 - DATA INTEGRATION FOR ESTIMATING MEAN FOLD CHANGE ACROSS DETECTED GENES########
 
 integrat.list_15000f <- list(C1_Inf_obj, C1_Uninf_obj,C3_Inf_obj, C3_Uninf_obj,NSRef_1_Inf_obj, NSRef_1_Uninf_obj,NSRef_3_Inf_obj, NSRef_3_Uninf_obj)
 names(integrat.list_15000f)=c("C1_Inf_obj", "C1_Uninf_obj","C3_Inf_obj", "C3_Uninf_obj","NSRef_1_Inf_obj", "NSRef_1_Uninf_obj","NSRef_3_Inf_obj", "NSRef_3_Uninf_obj")
@@ -457,7 +418,6 @@ integrate.combined_15000f$population <- gsub("-","",integrate.combined_15000f$po
 integrate.combined_15000f$population <- gsub(".$","",integrate.combined_15000f$population)
 integrate.combined_15000f$population <- gsub("C","control",integrate.combined_15000f$population)
 integrate.combined_15000f$poptreat <- paste(integrate.combined_15000f$population,integrate.combined_15000f$treatment)
-integrate.combined_15000f_cellcycle <- integrate.combined_15000f
 integrate.combined_15000f <- ScaleData(integrate.combined_15000f, vars.to.regress = c("nCount_RNA","nFeature_RNA","percent.mt"), features = rownames(integrate.combined_15000f))
 integrate.combined_15000f <- RunPCA(integrate.combined_15000f, npcs = 50, verbose = FALSE)
 integrate.combined_15000f <- RunUMAP(integrate.combined_15000f, reduction = "pca", dims = 1:50)
@@ -506,7 +466,7 @@ pdf("bulkgeneexp_mod2.pdf",width = 12, height = 3.5)
 par(mfrow=c(1,3))
 par(mar=c(5,6,4,2)+0.8)
 par(mgp=c(4,1,0))
-heatscatter(selvinfection_15000f$avg_logFC.x,selvinfection_15000f$avg_logFC.y, ylab =expression('                              No Infection\nFold Change after selection for resistance (log2)'),xlab =expression('Fold change after infection (log2)\n                  No Selection'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(selvinfection_15000f$avg_logFC.x,selvinfection_15000f$avg_logFC.y, ylab =expression('                              No Infection\nFold Change after selection for resistance (log2)'),xlab =expression('Fold change after infection (log2)\n                No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = selvinfection_15000f[selvinfection_15000f$gene == "FBgn0261363",]$avg_logFC.x,
        y = selvinfection_15000f[selvinfection_15000f$gene == "FBgn0261363",]$avg_logFC.y,
@@ -521,7 +481,7 @@ text("PPO3", font = 3, x = 0.13+selvinfection_15000f[selvinfection_15000f$gene =
      y = -0.18+selvinfection_15000f[selvinfection_15000f$gene == "FBgn0032422",]$avg_logFC.y, cex = 1.3)
 title("A", adj = 0)
 
-heatscatter(infvuninfec_15000f$avg_logFC.x,infvuninfec_15000f$avg_logFC.y, ylab =expression('        Selected for Resistance\nFold Change after infection (log2)'),xlab =expression('Fold change after infection (log2)\n                  No Selection'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(infvuninfec_15000f$avg_logFC.x,infvuninfec_15000f$avg_logFC.y, ylab =expression('        Selected for Resistance\nFold Change after infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Parasitism'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0261363",]$avg_logFC.x,
        y = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0261363",]$avg_logFC.y,
@@ -536,7 +496,7 @@ text("PPO3", font = 3, x = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn00
 title("B", adj = 0)
 
 
-heatscatter(selinfvnoseluninfec_15000f$avg_logFC.x,selinfvnoseluninfec_15000f$avg_logFC.y, ylab =expression('                  Fold Change after \nselection for resistance and infection (log2)'),xlab =expression('Fold change after infection (log2)\n                  No Selection'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(selinfvnoseluninfec_15000f$avg_logFC.x,selinfvnoseluninfec_15000f$avg_logFC.y, ylab =expression('                  Fold Change after \nselection for resistance and infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0261363",]$avg_logFC.x,
        y = selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0261363",]$avg_logFC.y,
@@ -554,11 +514,52 @@ dev.off()
 
 #write table of logFC
 logfc_allgenes <- cbind(infvuninfec_15000f$gene,selvinfection_15000f$avg_logFC.x,selvinfection_15000f$avg_logFC.y,infvuninfec_15000f$avg_logFC.y,selinfvnoseluninfec_15000f$avg_logFC.y)
-colnames(logfc_allgenes) <- c("Gene","Infection only FC","Selection only FC","Infection FC in selected populations", "Selection and Infection FC")
+colnames(logfc_allgenes) <- c("Gene","Infection only FC","High Parasitism only FC","Infection FC in selected populations", "High Parasitism and Infection FC")
 write.csv(logfc_allgenes, file = "logfc_allgenes.csv")
 
+####SECTION 8 - CLUSTERING WITH ALL DETECTED ANCHORS########
 
-####SECTION 7 - ROUND 1 LAMELLOCYTE  SUBCLUSTERING, MOVING MISCLASSIFIED CRYSTAL CELLS ########
+integrate.combined_15000f_0.3 <- FindClusters(integrate.combined_15000f, resolution = 0.3)
+integrate.combined_15000f_0.3$poptreat <- gsub("control Infected", "No Parasitism, Infection", integrate.combined_15000f_0.3$poptreat)
+integrate.combined_15000f_0.3$poptreat <- gsub("control Uninf", "No Parasitism, No Infection", integrate.combined_15000f_0.3$poptreat)
+integrate.combined_15000f_0.3$poptreat <- gsub("NSRef Infected", "High Parasitism, Infection", integrate.combined_15000f_0.3$poptreat)
+integrate.combined_15000f_0.3$poptreat <- gsub("NSRef Uninf", "High Parasitism, No Infection", integrate.combined_15000f_0.3$poptreat)
+integrate.combined_15000f_0.3$poptreat <- factor(integrate.combined_15000f_0.3$poptreat, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_15000f_0.3$population <- gsub("control", "No Parasitism", integrate.combined_15000f_0.3$population)
+integrate.combined_15000f_0.3$population <- gsub("NSRef", "High Parasitism", integrate.combined_15000f_0.3$population)
+integrate.combined_15000f_0.3$population <- factor(integrate.combined_15000f_0.3$population, levels = c("No Parasitism","High Parasitism"))
+integrate.combined_15000f_0.3$treatment <- gsub("Infected", "Infection", integrate.combined_15000f_0.3$treatment)
+integrate.combined_15000f_0.3$treatment <- gsub("Uninf", "No Infection", integrate.combined_15000f_0.3$treatment)
+integrate.combined_15000f_0.3$treatment <- factor(integrate.combined_15000f_0.3$treatment, levels = c("No Infection","Infection"))
+
+integrate.combined_cellcount <- as.data.frame(table(paste(integrate.combined_15000f_0.3$poptreat,integrate.combined_15000f_0.3$seurat_clusters,sep="_")))
+integrate.combined_cellcount <- integrate.combined_cellcount %>% separate(Var1, into= c("Treatment","Cluster"),sep="_")
+propall <- vector()
+for (t in levels(as.factor(integrate.combined_cellcount$Treatment))){
+  hold <- integrate.combined_cellcount[integrate.combined_cellcount$Treatment == t,]
+  prop <- hold$Freq/sum(hold$Freq)
+  propall <- c(propall,prop)
+}
+integrate.combined_cellcount$Prop <- propall
+integrate.combined_cellcount$Treatment <- factor(integrate.combined_cellcount$Treatment, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment, into = c("Parasitism", "Infection"), sep=", ", remove = F)
+integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
+integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
+
+ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+  geom_bar(stat="identity")+
+  facet_wrap(~ as.numeric(Cluster), ncol=4,scales = "free")+
+  xlab("")+
+  ylab("Proportion of cells") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  scale_size_manual(name = "", values = c(0.75,1.5)) +
+  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
+  scale_fill_manual(name = "Selection regime", values = c("#cccccc", "#5aa5e6"))+ 
+  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) 
+
+####SECTION 9 - ROUND 1 LAMELLOCYTE  SUBCLUSTERING, MOVING MISCLASSIFIED CRYSTAL CELLS ########
 
 mod <- subset(integrate.combined_0.3, idents = c(0,1,2,4,5))
 cells_lm <- gsub("_.","",colnames(mod))
@@ -626,7 +627,7 @@ integrate.combined_lm_0.3_round1 <- integrate.combined_lm_0.3
 cc_misclass <- factor(rep("CC",length(colnames(integrate.combined_0.3_cc))), levels = "CC")
 names(cc_misclass) <- colnames(integrate.combined_0.3_cc)
 
-####SECTION 8 - ROUND 2 LAMELLOCYTE  SUBCLUSTERING ########
+####SECTION 10 - ROUND 2 LAMELLOCYTE  SUBCLUSTERING ########
 
 mod2 <- subset(integrate.combined_lm_0.3, idents = c(0:4))
 cells_lm <- gsub("_.","",colnames(mod2))
@@ -676,14 +677,14 @@ integrate.combined_lm$population <- gsub("C","control",integrate.combined_lm$pop
 integrate.combined_lm$poptreat <- paste(integrate.combined_lm$population,integrate.combined_lm$treatment)
 
 integrate.combined_lm_0.2 <- FindClusters(integrate.combined_lm, resolution = 0.2)
-integrate.combined_lm_0.2$poptreat <- gsub("control Infected", "No Selection, Infection", integrate.combined_lm_0.2$poptreat)
-integrate.combined_lm_0.2$poptreat <- gsub("control Uninf", "No Selection, No Infection", integrate.combined_lm_0.2$poptreat)
-integrate.combined_lm_0.2$poptreat <- gsub("NSRef Infected", "Selection, Infection", integrate.combined_lm_0.2$poptreat)
-integrate.combined_lm_0.2$poptreat <- gsub("NSRef Uninf", "Selection, No Infection", integrate.combined_lm_0.2$poptreat)
-integrate.combined_lm_0.2$poptreat <- factor(integrate.combined_lm_0.2$poptreat, levels = c("No Selection, No Infection", "No Selection, Infection", "Selection, No Infection", "Selection, Infection"))
-integrate.combined_lm_0.2$population <- gsub("control", "No Selection", integrate.combined_lm_0.2$population)
-integrate.combined_lm_0.2$population <- gsub("NSRef", "Selection", integrate.combined_lm_0.2$population)
-integrate.combined_lm_0.2$population <- factor(integrate.combined_lm_0.2$population, levels = c("No Selection","Selection"))
+integrate.combined_lm_0.2$poptreat <- gsub("control Infected", "No Parasitism, Infection", integrate.combined_lm_0.2$poptreat)
+integrate.combined_lm_0.2$poptreat <- gsub("control Uninf", "No Parasitism, No Infection", integrate.combined_lm_0.2$poptreat)
+integrate.combined_lm_0.2$poptreat <- gsub("NSRef Infected", "High Parasitism, Infection", integrate.combined_lm_0.2$poptreat)
+integrate.combined_lm_0.2$poptreat <- gsub("NSRef Uninf", "High Parasitism, No Infection", integrate.combined_lm_0.2$poptreat)
+integrate.combined_lm_0.2$poptreat <- factor(integrate.combined_lm_0.2$poptreat, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_lm_0.2$population <- gsub("control", "No Parasitism", integrate.combined_lm_0.2$population)
+integrate.combined_lm_0.2$population <- gsub("NSRef", "High Parasitism", integrate.combined_lm_0.2$population)
+integrate.combined_lm_0.2$population <- factor(integrate.combined_lm_0.2$population, levels = c("No Parasitism","High Parasitism"))
 integrate.combined_lm_0.2$treatment <- gsub("Infected", "Infection", integrate.combined_lm_0.2$treatment)
 integrate.combined_lm_0.2$treatment <- gsub("Uninf", "No Infection", integrate.combined_lm_0.2$treatment)
 integrate.combined_lm_0.2$treatment <- factor(integrate.combined_lm_0.2$treatment, levels = c("No Infection","Infection"))
@@ -732,7 +733,7 @@ ggplot(data=phase_table, aes(x=factor(Cluster,levels = c( "PLASM1","LAM1","LAM2"
   xlab("Cluster")+
   ylab("Proportion")
 
-####SECTION 10 - TRAJECTORY INFERENCE FOR LAMELLOCYTE DIFFERENTIATION ########
+####SECTION 11 - TRAJECTORY INFERENCE FOR LAMELLOCYTE DIFFERENTIATION ########
 
 sds_pca <- slingshot(Embeddings(integrate.combined_lm_0.2, "pca"), clusterLabels = integrate.combined_lm_0.2$seurat_clusters, start.clus = "PLASM1", stretch = 0)
 integrate.combined_lm_0.2 <- FindVariableFeatures(object = integrate.combined_lm_0.2)
@@ -819,8 +820,46 @@ sample_markers_lm_0.2_LAM1v2$gene <- rownames(sample_markers_lm_0.2_LAM1v2)
 sample_markers_lm_0.2_LAM1v2$symbol <- mapIds(org.Dm.eg.db, as.character(sample_markers_lm_0.2_LAM1v2$gene), column="SYMBOL", keytype="FLYBASE", multiVals="first")
 write.csv(sample_markers_lm_0.2_LAM1v2, file = "markers_LAM1v2.csv")
 
+####SECTION 12 - TRAJECTORY INFERENCE FOR LAMELLOCYTE DIFFERENTIATION WITH CELL CYCLE CORRECTION########
 
-####SECTION 11 - INTEGRATING ROUND 2 SUBCLUSTERING WITH ROUND 3 CLUSTERING AND GENERATING MAIN TEXT PLOTS ########
+integrate.combined_lm_0.2_cellcycle <- ScaleData(integrate.combined_lm, vars.to.regress = c("nCount_RNA","nFeature_RNA","percent.mt", "CC.Difference"), features = rownames(integrate.combined_lm))
+integrate.combined_lm_0.2_cellcycle <- RunPCA(integrate.combined_lm_0.2_cellcycle, npcs = 50, verbose = FALSE)
+integrate.combined_lm_0.2_cellcycle <- RunUMAP(integrate.combined_lm_0.2_cellcycle, reduction = "pca", dims = 1:50)
+integrate.combined_lm_0.2_cellcycle <- FindNeighbors(integrate.combined_lm_0.2_cellcycle, reduction = "pca", dims = 1:50)
+integrate.combined_lm_0.2_cellcycle <- FindClusters(integrate.combined, resolution = 0.2)
+seurat_clusters_cc <- Idents(integrate.combined_lm_0.2_cellcycle)
+seurat_clusters_cc <- mapvalues(seurat_clusters_cc, from = c("0","1","2","3"), to = c("PLASM1","LAM2","LAM3","LAM1"))
+seurat_clusters_cc <- factor(seurat_clusters_cc, levels = c("PLASM1","LAM1","LAM2","LAM3"))
+Idents(integrate.combined_lm_0.2_cellcycle) <- seurat_clusters_cc 
+integrate.combined_lm_0.2_cellcycle$seurat_clusters <- seurat_clusters_cc
+
+lm_dimplot_cc <- DimPlot(object = integrate.combined_lm_0.2_cellcycle, reduction = "umap",label = F, order = rev(c( "PLASM1","LAM1","LAM2","LAM3")), cols = c('#9970ab',"#F28848","#FCBC2A", "#F0F921"))
+lm_dimplot_data_cc <- lm_dimplot_cc$data
+lm_dimplot_data_mean_cc <- aggregate(lm_dimplot_data_cc[, 1:2], list(lm_dimplot_data_cc$ident), mean)
+
+lm_dimplot_lineage_cc <- lm_dimplot_cc +
+  geom_line(data = lm_dimplot_data_mean_cc, aes(UMAP_1,UMAP_2), size = 1)+
+  geom_point(data = lm_dimplot_data_mean_cc, aes(UMAP_1,UMAP_2), size = 2)+ 
+  theme(legend.position="right")
+
+cellscompare <- ""
+clustersnames <- names(table(Idents(integrate.combined_lm_0.2)))
+for (i in 1:(length(table(Idents(integrate.combined_lm_0.2))))){
+  tempcells <- WhichCells(integrate.combined_lm_0.2, idents = clustersnames[i])
+  tempcells_data <- subset(integrate.combined_lm_0.2_cellcycle, cells = tempcells)
+  celllist <- Idents(tempcells_data)
+  celllist <- factor(celllist, levels = clustersnames)
+  cellscompare <- rbind(cellscompare,table(celllist))
+  
+}
+cellscompare <- cellscompare[-1,]
+rownames(cellscompare) <- clustersnames
+cellscompare
+
+write.csv(cellscompare, file ="lam subcluster with and without cc compare.csv", quote = F )
+
+
+####SECTION 13 - INTEGRATING ROUND 2 SUBCLUSTERING WITH ROUND 3 CLUSTERING  ########
 
 identities <- Idents(integrate.combined_0.3)
 identities_mod <- ""
@@ -834,8 +873,8 @@ for (n in 1:length(identities)){
   }
 }
 names(identities_mod) <- names(identities)
-identities_mod <- mapvalues(identities_mod, from = c("3","6","7","8"), to = c("PLASM2","CC","MET","AMP"))
 identities_mod <- factor(identities_mod, levels = c("PLASM1","PLASM2","CC","MET","AMP","LAM1","LAM2","LAM3"))
+identities_mod <- mapvalues(identities_mod, from = c("3","6","7","8"), to = c("PLASM2","CC","MET","AMP"))
 integrate.combined_0.3_mod <- integrate.combined_0.3
 Idents(integrate.combined_0.3_mod) <- identities_mod
 integrate.combined_0.3_mod$seurat_clusters <- identities_mod
@@ -853,9 +892,9 @@ Noinflabel <- grobTree(rectGrob(gp=gpar(fill="NA", lwd = 0)),
 Inflabel <- grobTree(rectGrob(gp=gpar(fill="NA", lwd = 0)),
                        textGrob("Infection", rot = 0, gp=gpar(col="black", fontsize=16, fontface="bold")))
 Nosellabel <- grobTree(rectGrob(gp=gpar(fill="NA", lwd = 0)),
-                       textGrob("No Selection",  rot = 90, gp=gpar(col="black", fontsize=16, fontface="bold")))
+                       textGrob("No Parasitism",  rot = 90, gp=gpar(col="black", fontsize=16, fontface="bold")))
 Sellabel <- grobTree(rectGrob(gp=gpar(fill="NA", lwd = 0)),
-                     textGrob("Selection", rot = 90, gp=gpar(col="black", fontsize=16, fontface="bold")))
+                     textGrob("High Parasitism", rot = 90, gp=gpar(col="black", fontsize=16, fontface="bold")))
 lay <- rbind(c("NA",2,2,2,2,2,2,3,3,3,3,3,3),
              c(4,1,1,1,1,1,1,1,1,1,1,1,1),
              c(4,1,1,1,1,1,1,1,1,1,1,1,1),
@@ -885,7 +924,7 @@ lay2 <- rbind(c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
              c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
              c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1))
 
-svg("integrate.combined_0.3_mod_umap.svg", width = 9, height = 4.3)
+pdf("integrate.combined_0.3_mod_umap.pdf", width = 9, height = 4.3)
 grid.arrange(grobs = list(dimplot_data2,dimplot_legend), layout_matrix = lay2)
 dev.off()
 
@@ -904,8 +943,6 @@ cellscompare <- cellscompare[-1,]
 rownames(cellscompare) <- clustersnames
 write.csv(cellscompare, file = "row_all_mod_col_all_0.3.csv")
 
-##percent mt
-VlnPlot(integrate.combined_0.3_mod, features = "percent.mt")
 
 ##cluster phase
 phase_table <- table(integrate.combined_0.3_mod$seurat_clusters,integrate.combined_0.3_mod$Phase)
@@ -926,7 +963,7 @@ for (g in 1:length(groups)){
   phase_table <- phase_table/rowSums(phase_table)
   phase_table <- melt(phase_table)
   colnames(phase_table) <- c("Cluster","Phase","Proportion")
-  phaseplots[[g]] <- ggplot(data=phase_table, aes(x=factor(Cluster,levels = c( "PLASM1","PLASM2","MET","AMP","CRY","LAM1","LAM2","LAM3")), y=Proportion, fill = Phase)) +
+  phaseplots[[g]] <- ggplot(data=phase_table, aes(x=factor(Cluster,levels = c( "PLASM1","PLASM2","CC","MET","AMP","LAM1","LAM2","LAM3")), y=Proportion, fill = Phase)) +
     geom_bar(stat="identity")+
     xlab("Cluster")+
     ylab("Proportion")+
@@ -935,7 +972,40 @@ for (g in 1:length(groups)){
 }
 do.call("grid.arrange", c(phaseplots, ncol=2))
 
-##cluster proportions 
+
+##compare to integrate.combined cellcycle
+cellscompare <- ""
+clustersnames <- names(table(Idents(integrate.combined_0.3_mod)))
+for (i in 1:(length(table(Idents(integrate.combined_0.3_mod))))){
+  tempcells <- WhichCells(integrate.combined_0.3_mod, idents = clustersnames[i])
+  tempcells_data <- subset(integrate.combined_cellcycle_0.3, cells = tempcells)
+  celllist <- Idents(tempcells_data)
+  celllist <- factor(celllist, levels = 0:(length(table(Idents(integrate.combined_cellcycle_0.3)))-1))
+  cellscompare <- rbind(cellscompare,table(celllist))
+  
+}
+cellscompare <- cellscompare[-1,]
+rownames(cellscompare) <- clustersnames
+write.csv(cellscompare, file = "row_all_mod_col_all_cc_0.3.csv")
+
+##compare to integrate.combined 15000 features
+cellscompare <- ""
+clustersnames <- names(table(Idents(integrate.combined_0.3_mod)))
+for (i in 1:(length(table(Idents(integrate.combined_0.3_mod))))){
+  tempcells <- WhichCells(integrate.combined_0.3_mod, idents = clustersnames[i])
+  tempcells_data <- subset(integrate.combined_15000f_0.3, cells = tempcells)
+  celllist <- Idents(tempcells_data)
+  celllist <- factor(celllist, levels = 0:(length(table(Idents(integrate.combined_15000f_0.3)))-1))
+  cellscompare <- rbind(cellscompare,table(celllist))
+  
+}
+cellscompare <- cellscompare[-1,]
+rownames(cellscompare) <- clustersnames
+write.csv(cellscompare, file = "row_all_mod_col_7716features_0.3.csv", quote = F)
+
+
+####SECTION 14 - CLUSTER PROPORTIONS PLOT  ########
+##cluster proportions
 integrate.combined_cellcount <- as.data.frame(table(paste(integrate.combined_0.3_mod$poptreat,integrate.combined_0.3_mod$seurat_clusters,sep="_")))
 integrate.combined_cellcount <- integrate.combined_cellcount %>% separate(Var1, into= c("Treatment","Cluster"),sep="_")
 propall <- vector()
@@ -945,12 +1015,13 @@ for (t in levels(as.factor(integrate.combined_cellcount$Treatment))){
   propall <- c(propall,prop)
 }
 integrate.combined_cellcount$Prop <- propall
-integrate.combined_cellcount$Treatment <- factor(integrate.combined_cellcount$Treatment, levels = c("No Selection, No Infection", "No Selection, Infection", "Selection, No Infection", "Selection, Infection"))
-integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment, into = c("Selection", "Infection"), sep=", ", remove = F)
-integrate.combined_cellcount$Selection <- as.factor(integrate.combined_cellcount$Selection)
+integrate.combined_cellcount$Treatment <- factor(integrate.combined_cellcount$Treatment, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment, into = c("Parasitism", "Infection"), sep=", ", remove = F)
+integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
 integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
 
-clusterplot <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Selection, color = Infection, size= Infection)) +
+
+clusterplot <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
   geom_bar(stat="identity")+
   facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
   xlab("")+
@@ -969,6 +1040,8 @@ clusterplot <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop
 pdf("clusprop.pdf", height = 7.8, width = 10)
 plot_grid(clusterplot, lineage_plot, labels = c('A', ''), label_size = 12, ncol = 1, rel_heights = c(1.7, 1))
 dev.off()
+
+####SECTION 15 - CLUSTER DEFINITIONS   ########
 
 ##for flymine pathway analysis
 universe_sc <- read.csv(file = "universe_sc")
@@ -1050,8 +1123,10 @@ DotPlot(integrate.combined_0.3_mod, features = cluster_markers_top$gene, slot = 
   scale_x_discrete(labels=rev(cluster_markers_top$symbol)) + 
   theme(axis.text.x = element_text(face = "italic"))
 
+DotPlot(integrate.combined_0.3_mod, features = unique(g2m.genes))
 
-##save count matrix
+
+####SECTION 16 - SAVE SEURAT OBJECTS AND COUNT MATRICES   ########
 
 integrated_rna_count_matrix <- GetAssayData(object = integrate.combined_0.3_mod@assays$RNA, slot = 'counts')
 integrated_rna_count_matrix <- as.data.frame(t(integrated_rna_count_matrix))
@@ -1072,3 +1147,349 @@ integrated_hemocytes <- integrate.combined_0.3_mod
 integrated_lamellocyte_subcluster <- integrate.combined_lm_0.2
 save(integrated_hemocytes, file = "integrated_hemocytes.Robj")
 save(integrated_lamellocyte_subcluster, file = "integrated_lamellocyte_subcluster.Robj")
+
+
+####SECTION 17 - SAMPLE LIBRARY METRICS  ########
+
+integrate.combined_0.3_mod_formetrics <- integrate.combined_0.3_mod
+integrate.combined_0.3_mod_formetrics$old.ident <- gsub("NSRef","HP", integrate.combined_0.3_mod_formetrics$old.ident)
+integrate.combined_0.3_mod_formetrics$old.ident <- gsub("^C","NP-", integrate.combined_0.3_mod_formetrics$old.ident)
+integrate.combined_0.3_mod_formetrics$old.ident <- gsub("Inf","I", integrate.combined_0.3_mod_formetrics$old.ident)
+integrate.combined_0.3_mod_formetrics$old.ident <- gsub("Uninf","NI", integrate.combined_0.3_mod_formetrics$old.ident)
+
+Idents(integrate.combined_0.3_mod_formetrics) <- integrate.combined_0.3_mod_formetrics$old.ident
+metricplot <- VlnPlot(integrate.combined_0.3_mod_formetrics, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 2, pt.size = 0)
+write.csv(table(integrate.combined_0.3_mod_formetrics$old.ident), file = "cell number by library.csv", quote = F)
+
+
+numcellslib <- as.data.frame(table(integrate.combined_0.3_mod_formetrics$old.ident))
+colnames(numcellslib) <- c("Library", "number.of.cells")
+numcellslib <- rbind(numcellslib[5:8,],numcellslib[1:4,])
+numcellplot <- ggplot(numcellslib, aes(factor(Library, levels = as.character(unique(numcellslib$Library))),number.of.cells, fill = factor(Library, levels = as.character(unique(numcellslib$Library)))))+
+  geom_bar(stat="identity") +
+  ggtitle("Number of cells")+ 
+  ylab("")+
+  theme(legend.position = "none")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  xlab("Identity")
+
+plot_grid(numcellplot,metricplot, nrow=1, rel_widths = c(1,3))
+
+numgenslib <- c(9930, 11067, 10743, 10511, 9380, 9017, 9729, 10384)
+names(numgenslib) <- numcellslib$Var1
+
+####SECTION 18 - CLUSTER COMPARISONS BY REPLICATE AND FOLLOWING SUBSAMPLING CELLS ########
+
+##rep 3 only
+
+integrate.list <- list(C3_Inf_obj, C3_Uninf_obj,NSRef_3_Inf_obj, NSRef_3_Uninf_obj)
+names(integrate.list)=c("C3_Inf_obj", "C3_Uninf_obj","NSRef_3_Inf_obj", "NSRef_3_Uninf_obj")
+for (i in 1:length(x = integrate.list)) {
+  integrate.list[[i]] <- NormalizeData(object = integrate.list[[i]], verbose = FALSE)
+  integrate.list[[i]] <- FindVariableFeatures(object = integrate.list[[i]],  selection.method = "vst", nfeatures = 2000, verbose = TRUE)
+}
+reference.list <- integrate.list[c("C3_Inf_obj", "C3_Uninf_obj","NSRef_3_Inf_obj", "NSRef_3_Uninf_obj")]
+integrate.anchors <- FindIntegrationAnchors(object.list = reference.list, dims = 1:50, anchor.features = 2000)
+integrate.combined_rep3 <- IntegrateData(anchorset = integrate.anchors, dims = 1:50)
+integrate.combined_rep3 <- subset(integrate.combined_rep3, subset = nFeature_RNA > 200 & nFeature_RNA < 2500)
+DefaultAssay(integrate.combined_rep3) <- "integrated"
+s.genes <- read.csv(file = "s.genes.fly.csv")
+g2m.genes <- read.csv(file = "g2m.genes.fly.csv")
+s.genes <- as.character(s.genes$FlyBaseID)
+g2m.genes <- as.character(g2m.genes$FlyBaseID)
+s.genes <- s.genes[s.genes %in% rownames(integrate.combined_rep3)]
+g2m.genes <- g2m.genes[g2m.genes %in% rownames(integrate.combined_rep3)]
+integrate.combined_rep3 <- CellCycleScoring(integrate.combined_rep3, s.features = s.genes, g2m.features = g2m.genes, set.ident = TRUE)
+integrate.combined_rep3$CC.Difference <- integrate.combined_rep3$S.Score - integrate.combined_rep3$G2M.Score
+integrate.combined_rep3$treatment <- integrate.combined_rep3$orig.ident
+integrate.combined_rep3$treatment <- gsub("NSRef-._","",integrate.combined_rep3$treatment)
+integrate.combined_rep3$treatment <- gsub("C._","",integrate.combined_rep3$treatment)
+integrate.combined_rep3$treatment <- gsub("Inf","Infected",integrate.combined_rep3$treatment)
+integrate.combined_rep3$population <- integrate.combined_rep3$orig.ident
+integrate.combined_rep3$population <- gsub("_Uninf","",integrate.combined_rep3$population)
+integrate.combined_rep3$population <- gsub("_Inf","",integrate.combined_rep3$population)
+integrate.combined_rep3$population <- gsub("-","",integrate.combined_rep3$population)
+integrate.combined_rep3$population <- gsub(".$","",integrate.combined_rep3$population)
+integrate.combined_rep3$population <- gsub("C","control",integrate.combined_rep3$population)
+integrate.combined_rep3$poptreat <- paste(integrate.combined_rep3$population,integrate.combined_rep3$treatment)
+integrate.combined_rep3_cellcycle <- integrate.combined_rep3
+integrate.combined_rep3 <- ScaleData(integrate.combined_rep3, vars.to.regress = c("nCount_RNA","nFeature_RNA","percent.mt"), features = rownames(integrate.combined_rep3))
+integrate.combined_rep3 <- RunPCA(integrate.combined_rep3, npcs = 50, verbose = FALSE)
+integrate.combined_rep3 <- RunUMAP(integrate.combined_rep3, reduction = "pca", dims = 1:50)
+integrate.combined_rep3 <- FindNeighbors(integrate.combined_rep3, reduction = "pca", dims = 1:50)
+
+integrate.combined_rep3_0.3 <- FindClusters(integrate.combined_rep3, resolution = 0.5)
+integrate.combined_rep3_0.3$poptreat <- gsub("control Infected", "No Parasitism, Infection", integrate.combined_rep3_0.3$poptreat)
+integrate.combined_rep3_0.3$poptreat <- gsub("control Uninf", "No Parasitism, No Infection", integrate.combined_rep3_0.3$poptreat)
+integrate.combined_rep3_0.3$poptreat <- gsub("NSRef Infected", "High Parasitism, Infection", integrate.combined_rep3_0.3$poptreat)
+integrate.combined_rep3_0.3$poptreat <- gsub("NSRef Uninf", "High Parasitism, No Infection", integrate.combined_rep3_0.3$poptreat)
+integrate.combined_rep3_0.3$poptreat <- factor(integrate.combined_rep3_0.3$poptreat, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_rep3_0.3$population <- gsub("control", "No Parasitism", integrate.combined_rep3_0.3$population)
+integrate.combined_rep3_0.3$population <- gsub("NSRef", "High Parasitism", integrate.combined_rep3_0.3$population)
+integrate.combined_rep3_0.3$population <- factor(integrate.combined_rep3_0.3$population, levels = c("No Parasitism","High Parasitism"))
+integrate.combined_rep3_0.3$treatment <- gsub("Infected", "Infection", integrate.combined_rep3_0.3$treatment)
+integrate.combined_rep3_0.3$treatment <- gsub("Uninf", "No Infection", integrate.combined_rep3_0.3$treatment)
+integrate.combined_rep3_0.3$treatment <- factor(integrate.combined_rep3_0.3$treatment, levels = c("No Infection","Infection"))
+
+DimPlot(integrate.combined_rep3_0.3, split.by = "poptreat", label = T)
+seurat_clusters_rep3 <- as.data.frame(integrate.combined_rep3_0.3$seurat_clusters)
+seurat_clusters_mod <- as.data.frame(integrate.combined_0.3_mod$seurat_clusters)
+seurat_clusters_rep3$cell <- rownames(seurat_clusters_rep3)
+seurat_clusters_mod$cell <- rownames(seurat_clusters_mod)
+newclusters <- left_join(seurat_clusters_rep3, seurat_clusters_mod, by = "cell")
+Idents(integrate.combined_rep3_0.3) <- newclusters$`integrate.combined_0.3_mod$seurat_clusters`
+integrate.combined_rep3_0.3$seurat_clusters <- Idents(integrate.combined_rep3_0.3)
+
+cellscompare <- ""
+clustersnames <- names(table(Idents(integrate.combined_0.3_mod)))
+for (i in 1:(length(table(Idents(integrate.combined_0.3_mod))))){
+  tempcells <- WhichCells(integrate.combined_0.3_mod, idents = clustersnames[i])
+  tempcells_data <- subset(integrate.combined_rep3_0.3, cells = tempcells)
+  celllist <- Idents(tempcells_data)
+  celllist <- factor(celllist, levels = 0:(length(table(Idents(integrate.combined_rep3_0.3)))-1))
+  cellscompare <- rbind(cellscompare,table(celllist))
+  
+}
+cellscompare <- cellscompare[-1,]
+rownames(cellscompare) <- clustersnames
+cellscompare
+
+integrate.combined_cellcount <- as.data.frame(table(paste(integrate.combined_rep3_0.3$poptreat,integrate.combined_rep3_0.3$seurat_clusters,sep="_")))
+integrate.combined_cellcount <- integrate.combined_cellcount %>% separate(Var1, into= c("Treatment","Cluster"),sep="_")
+propall <- vector()
+for (t in levels(as.factor(integrate.combined_cellcount$Treatment))){
+  hold <- integrate.combined_cellcount[integrate.combined_cellcount$Treatment == t,]
+  prop <- hold$Freq/sum(hold$Freq)
+  propall <- c(propall,prop)
+}
+integrate.combined_cellcount$Prop <- propall
+integrate.combined_cellcount$Treatment <- factor(integrate.combined_cellcount$Treatment, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment, into = c("Parasitism", "Infection"), sep=", ", remove = F)
+integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
+integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
+
+rep3dimplot <- DimPlot(integrate.combined_rep3_0.3, label = T)
+
+clusterplot_rep3 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+  geom_bar(stat="identity")+
+  facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
+  xlab("")+
+  ylab("Proportion of cells") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  scale_size_manual(name = "", values = c(0.75,1.5)) +
+  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
+  scale_fill_manual(name = "Selection regime", values = c("#cccccc", "#5aa5e6"))+ 
+  theme(legend.position = c(0.84, 1.06),
+        legend.justification = c(0.84, 1.06)) + 
+  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) +
+  theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
+
+plot_grid(rep3dimplot,clusterplot_rep3, ncol=2, rel_widths = c(1,2))
+
+##rep1
+
+integrate.list <- list(C1_Inf_obj, C1_Uninf_obj,NSRef_1_Inf_obj, NSRef_1_Uninf_obj)
+names(integrate.list)=c("C1_Inf_obj", "C1_Uninf_obj","NSRef_1_Inf_obj", "NSRef_1_Uninf_obj")
+for (i in 1:length(x = integrate.list)) {
+  integrate.list[[i]] <- NormalizeData(object = integrate.list[[i]], verbose = FALSE)
+  integrate.list[[i]] <- FindVariableFeatures(object = integrate.list[[i]],  selection.method = "vst", nfeatures = 2000, verbose = TRUE)
+}
+reference.list <- integrate.list[c("C1_Inf_obj", "C1_Uninf_obj","NSRef_1_Inf_obj", "NSRef_1_Uninf_obj")]
+integrate.anchors <- FindIntegrationAnchors(object.list = reference.list, dims = 1:50, anchor.features = 2000)
+integrate.combined_rep1 <- IntegrateData(anchorset = integrate.anchors, dims = 1:50)
+integrate.combined_rep1 <- subset(integrate.combined_rep1, subset = nFeature_RNA > 200 & nFeature_RNA < 2500)
+DefaultAssay(integrate.combined_rep1) <- "integrated"
+s.genes <- read.csv(file = "s.genes.fly.csv")
+g2m.genes <- read.csv(file = "g2m.genes.fly.csv")
+s.genes <- as.character(s.genes$FlyBaseID)
+g2m.genes <- as.character(g2m.genes$FlyBaseID)
+s.genes <- s.genes[s.genes %in% rownames(integrate.combined_rep1)]
+g2m.genes <- g2m.genes[g2m.genes %in% rownames(integrate.combined_rep1)]
+integrate.combined_rep1 <- CellCycleScoring(integrate.combined_rep1, s.features = s.genes, g2m.features = g2m.genes, set.ident = TRUE)
+integrate.combined_rep1$CC.Difference <- integrate.combined_rep1$S.Score - integrate.combined_rep1$G2M.Score
+integrate.combined_rep1$treatment <- integrate.combined_rep1$orig.ident
+integrate.combined_rep1$treatment <- gsub("NSRef-._","",integrate.combined_rep1$treatment)
+integrate.combined_rep1$treatment <- gsub("C._","",integrate.combined_rep1$treatment)
+integrate.combined_rep1$treatment <- gsub("Inf","Infected",integrate.combined_rep1$treatment)
+integrate.combined_rep1$population <- integrate.combined_rep1$orig.ident
+integrate.combined_rep1$population <- gsub("_Uninf","",integrate.combined_rep1$population)
+integrate.combined_rep1$population <- gsub("_Inf","",integrate.combined_rep1$population)
+integrate.combined_rep1$population <- gsub("-","",integrate.combined_rep1$population)
+integrate.combined_rep1$population <- gsub(".$","",integrate.combined_rep1$population)
+integrate.combined_rep1$population <- gsub("C","control",integrate.combined_rep1$population)
+integrate.combined_rep1$poptreat <- paste(integrate.combined_rep1$population,integrate.combined_rep1$treatment)
+integrate.combined_rep1_cellcycle <- integrate.combined_rep1
+integrate.combined_rep1 <- ScaleData(integrate.combined_rep1, vars.to.regress = c("nCount_RNA","nFeature_RNA","percent.mt"), features = rownames(integrate.combined_rep1))
+integrate.combined_rep1 <- RunPCA(integrate.combined_rep1, npcs = 50, verbose = FALSE)
+integrate.combined_rep1 <- RunUMAP(integrate.combined_rep1, reduction = "pca", dims = 1:50)
+integrate.combined_rep1 <- FindNeighbors(integrate.combined_rep1, reduction = "pca", dims = 1:50)
+
+integrate.combined_rep1_0.3 <- FindClusters(integrate.combined_rep1, resolution = 0.5)
+integrate.combined_rep1_0.3$poptreat <- gsub("control Infected", "No Parasitism, Infection", integrate.combined_rep1_0.3$poptreat)
+integrate.combined_rep1_0.3$poptreat <- gsub("control Uninf", "No Parasitism, No Infection", integrate.combined_rep1_0.3$poptreat)
+integrate.combined_rep1_0.3$poptreat <- gsub("NSRef Infected", "High Parasitism, Infection", integrate.combined_rep1_0.3$poptreat)
+integrate.combined_rep1_0.3$poptreat <- gsub("NSRef Uninf", "High Parasitism, No Infection", integrate.combined_rep1_0.3$poptreat)
+integrate.combined_rep1_0.3$poptreat <- factor(integrate.combined_rep1_0.3$poptreat, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_rep1_0.3$population <- gsub("control", "No Parasitism", integrate.combined_rep1_0.3$population)
+integrate.combined_rep1_0.3$population <- gsub("NSRef", "High Parasitism", integrate.combined_rep1_0.3$population)
+integrate.combined_rep1_0.3$population <- factor(integrate.combined_rep1_0.3$population, levels = c("No Parasitism","High Parasitism"))
+integrate.combined_rep1_0.3$treatment <- gsub("Infected", "Infection", integrate.combined_rep1_0.3$treatment)
+integrate.combined_rep1_0.3$treatment <- gsub("Uninf", "No Infection", integrate.combined_rep1_0.3$treatment)
+integrate.combined_rep1_0.3$treatment <- factor(integrate.combined_rep1_0.3$treatment, levels = c("No Infection","Infection"))
+
+seurat_clusters_rep1 <- as.data.frame(integrate.combined_rep1_0.3$seurat_clusters)
+seurat_clusters_mod <- as.data.frame(integrate.combined_0.3_mod$seurat_clusters)
+seurat_clusters_rep1$cell <- rownames(seurat_clusters_rep1)
+seurat_clusters_mod$cell <- rownames(seurat_clusters_mod)
+newclusters <- left_join(seurat_clusters_rep1, seurat_clusters_mod, by = "cell")
+Idents(integrate.combined_rep1_0.3) <- newclusters$`integrate.combined_0.3_mod$seurat_clusters`
+integrate.combined_rep1_0.3$seurat_clusters <- Idents(integrate.combined_rep1_0.3)
+
+rep1dimplot <- DimPlot(integrate.combined_rep1_0.3, label = T)
+
+integrate.combined_cellcount <- as.data.frame(table(paste(integrate.combined_rep1_0.3$poptreat,integrate.combined_rep1_0.3$seurat_clusters,sep="_")))
+integrate.combined_cellcount <- integrate.combined_cellcount %>% separate(Var1, into= c("Treatment","Cluster"),sep="_")
+propall <- vector()
+for (t in levels(as.factor(integrate.combined_cellcount$Treatment))){
+  hold <- integrate.combined_cellcount[integrate.combined_cellcount$Treatment == t,]
+  prop <- hold$Freq/sum(hold$Freq)
+  propall <- c(propall,prop)
+}
+integrate.combined_cellcount$Prop <- propall
+integrate.combined_cellcount$Treatment <- factor(integrate.combined_cellcount$Treatment, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment, into = c("Parasitism", "Infection"), sep=", ", remove = F)
+integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
+integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
+
+clusterplot_rep1 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+  geom_bar(stat="identity")+
+  facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
+  xlab("")+
+  ylab("Proportion of cells") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  scale_size_manual(name = "", values = c(0.75,1.5)) +
+  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
+  scale_fill_manual(name = "Selection regime", values = c("#cccccc", "#5aa5e6"))+ 
+  theme(legend.position = c(0.84, 1.06),
+        legend.justification = c(0.84, 1.06)) + 
+  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) +
+  theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
+
+plot_grid(rep1dimplot,clusterplot_rep1, ncol=2, rel_widths = c(1,2))
+
+##subsample cell to min library
+
+cl1 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[1]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+cl2 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[2]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+cl3 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[3]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+cl4 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[4]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+cl5 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[5]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+cl6 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[6]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+cl7 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[7]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+cl8 <- sample(names(integrate.combined_0.3_mod$old.ident[integrate.combined_0.3_mod$old.ident %in% levels(integrate.combined_0.3_mod$old.ident)[8]]),min(table(integrate.combined_0.3_mod$old.ident)), replace = F)
+
+cellall <- c(cl1,cl2,cl3,cl4,cl5,cl6,cl7,cl8) 
+
+C1_Inf_obj_sub <- subset(C1_Inf_obj,cells = cellall)
+C1_Uninf_obj_sub <- subset(C1_Uninf_obj,cells = cellall)
+C3_Inf_obj_sub <- subset(C3_Inf_obj,cells = cellall)
+C3_Uninf_obj_sub <- subset(C3_Uninf_obj,cells = cellall)
+NSRef_1_Inf_obj_sub <- subset(NSRef_1_Inf_obj,cells = cellall)
+NSRef_1_Uninf_obj_sub <- subset(NSRef_1_Uninf_obj,cells = cellall)
+NSRef_3_Inf_obj_sub <- subset(NSRef_3_Inf_obj,cells = cellall)
+NSRef_3_Uninf_obj_sub <- subset(NSRef_3_Uninf_obj,cells = cellall)
+
+integrate.list <- list(C1_Inf_obj_sub, C1_Uninf_obj_sub,C3_Inf_obj_sub, C3_Uninf_obj_sub,NSRef_1_Inf_obj_sub, NSRef_1_Uninf_obj_sub,NSRef_3_Inf_obj_sub, NSRef_3_Uninf_obj_sub)
+names(integrate.list)=c("C1_Inf_obj_sub", "C1_Uninf_obj_sub","C3_Inf_obj_sub", "C3_Uninf_obj_sub","NSRef_1_Inf_obj_sub", "NSRef_1_Uninf_obj_sub","NSRef_3_Inf_obj_sub", "NSRef_3_Uninf_obj_sub")
+for (i in 1:length(x = integrate.list)) {
+  integrate.list[[i]] <- NormalizeData(object = integrate.list[[i]], verbose = FALSE)
+  integrate.list[[i]] <- FindVariableFeatures(object = integrate.list[[i]],  selection.method = "vst", nfeatures = 2000, verbose = TRUE)
+}
+reference.list <- integrate.list[c("C1_Inf_obj_sub", "C1_Uninf_obj_sub","C3_Inf_obj_sub", "C3_Uninf_obj_sub","NSRef_1_Inf_obj_sub", "NSRef_1_Uninf_obj_sub","NSRef_3_Inf_obj_sub", "NSRef_3_Uninf_obj_sub")]
+integrate.anchors <- FindIntegrationAnchors(object.list = reference.list, dims = 1:50, anchor.features = 2000)
+integrate.combined_sub <- IntegrateData(anchorset = integrate.anchors, dims = 1:50)
+integrate.combined_sub <- subset(integrate.combined_sub, subset = nFeature_RNA > 200 & nFeature_RNA < 2500)
+DefaultAssay(integrate.combined_sub) <- "integrated"
+s.genes <- read.csv(file = "s.genes.fly.csv")
+g2m.genes <- read.csv(file = "g2m.genes.fly.csv")
+s.genes <- as.character(s.genes$FlyBaseID)
+g2m.genes <- as.character(g2m.genes$FlyBaseID)
+s.genes <- s.genes[s.genes %in% rownames(integrate.combined_sub)]
+g2m.genes <- g2m.genes[g2m.genes %in% rownames(integrate.combined_sub)]
+integrate.combined_sub <- CellCycleScoring(integrate.combined_sub, s.features = s.genes, g2m.features = g2m.genes, set.ident = TRUE)
+integrate.combined_sub$CC.Difference <- integrate.combined_sub$S.Score - integrate.combined_sub$G2M.Score
+integrate.combined_sub$treatment <- integrate.combined_sub$orig.ident
+integrate.combined_sub$treatment <- gsub("NSRef-._","",integrate.combined_sub$treatment)
+integrate.combined_sub$treatment <- gsub("C._","",integrate.combined_sub$treatment)
+integrate.combined_sub$treatment <- gsub("Inf","Infected",integrate.combined_sub$treatment)
+integrate.combined_sub$population <- integrate.combined_sub$orig.ident
+integrate.combined_sub$population <- gsub("_Uninf","",integrate.combined_sub$population)
+integrate.combined_sub$population <- gsub("_Inf","",integrate.combined_sub$population)
+integrate.combined_sub$population <- gsub("-","",integrate.combined_sub$population)
+integrate.combined_sub$population <- gsub(".$","",integrate.combined_sub$population)
+integrate.combined_sub$population <- gsub("C","control",integrate.combined_sub$population)
+integrate.combined_sub$poptreat <- paste(integrate.combined_sub$population,integrate.combined_sub$treatment)
+integrate.combined_sub_cellcycle <- integrate.combined_sub
+integrate.combined_sub <- ScaleData(integrate.combined_sub, vars.to.regress = c("nCount_RNA","nFeature_RNA","percent.mt"), features = rownames(integrate.combined_sub))
+integrate.combined_sub <- RunPCA(integrate.combined_sub, npcs = 50, verbose = FALSE)
+integrate.combined_sub <- RunUMAP(integrate.combined_sub, reduction = "pca", dims = 1:50)
+integrate.combined_sub <- FindNeighbors(integrate.combined_sub, reduction = "pca", dims = 1:50)
+
+integrate.combined_sub_0.3 <- FindClusters(integrate.combined_sub, resolution = 0.5)
+integrate.combined_sub_0.3$poptreat <- gsub("control Infected", "No Parasitism, Infection", integrate.combined_sub_0.3$poptreat)
+integrate.combined_sub_0.3$poptreat <- gsub("control Uninf", "No Parasitism, No Infection", integrate.combined_sub_0.3$poptreat)
+integrate.combined_sub_0.3$poptreat <- gsub("NSRef Infected", "High Parasitism, Infection", integrate.combined_sub_0.3$poptreat)
+integrate.combined_sub_0.3$poptreat <- gsub("NSRef Uninf", "High Parasitism, No Infection", integrate.combined_sub_0.3$poptreat)
+integrate.combined_sub_0.3$poptreat <- factor(integrate.combined_sub_0.3$poptreat, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_sub_0.3$population <- gsub("control", "No Parasitism", integrate.combined_sub_0.3$population)
+integrate.combined_sub_0.3$population <- gsub("NSRef", "High Parasitism", integrate.combined_sub_0.3$population)
+integrate.combined_sub_0.3$population <- factor(integrate.combined_sub_0.3$population, levels = c("No Parasitism","High Parasitism"))
+integrate.combined_sub_0.3$treatment <- gsub("Infected", "Infection", integrate.combined_sub_0.3$treatment)
+integrate.combined_sub_0.3$treatment <- gsub("Uninf", "No Infection", integrate.combined_sub_0.3$treatment)
+integrate.combined_sub_0.3$treatment <- factor(integrate.combined_sub_0.3$treatment, levels = c("No Infection","Infection"))
+
+seurat_clusters_sub <- as.data.frame(integrate.combined_sub_0.3$seurat_clusters)
+seurat_clusters_mod <- as.data.frame(integrate.combined_0.3_mod$seurat_clusters)
+seurat_clusters_sub$cell <- rownames(seurat_clusters_sub)
+seurat_clusters_mod$cell <- rownames(seurat_clusters_mod)
+newclusters <- left_join(seurat_clusters_sub, seurat_clusters_mod, by = "cell")
+Idents(integrate.combined_sub_0.3) <- newclusters$`integrate.combined_0.3_mod$seurat_clusters`
+integrate.combined_sub_0.3$seurat_clusters <- Idents(integrate.combined_sub_0.3)
+
+subdimplot <- DimPlot(integrate.combined_sub_0.3, label = T)
+
+integrate.combined_cellcount <- as.data.frame(table(paste(integrate.combined_sub_0.3$poptreat,integrate.combined_sub_0.3$seurat_clusters,sep="_")))
+integrate.combined_cellcount <- integrate.combined_cellcount %>% separate(Var1, into= c("Treatment","Cluster"),sep="_")
+propall <- vector()
+for (t in levels(as.factor(integrate.combined_cellcount$Treatment))){
+  hold <- integrate.combined_cellcount[integrate.combined_cellcount$Treatment == t,]
+  prop <- hold$Freq/sum(hold$Freq)
+  propall <- c(propall,prop)
+}
+integrate.combined_cellcount$Prop <- propall
+integrate.combined_cellcount$Treatment <- factor(integrate.combined_cellcount$Treatment, levels = c("No Parasitism, No Infection", "No Parasitism, Infection", "High Parasitism, No Infection", "High Parasitism, Infection"))
+integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment, into = c("Parasitism", "Infection"), sep=", ", remove = F)
+integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
+integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
+
+clusterplot_sub <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+  geom_bar(stat="identity")+
+  facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
+  xlab("")+
+  ylab("Proportion of cells") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  scale_size_manual(name = "", values = c(0.75,1.5)) +
+  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
+  scale_fill_manual(name = "Selection regime", values = c("#cccccc", "#5aa5e6"))+ 
+  theme(legend.position = c(0.84, 1.06),
+        legend.justification = c(0.84, 1.06)) + 
+  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) +
+  theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
+
+plot_grid(subdimplot,clusterplot_sub, ncol=2, rel_widths = c(1,2))

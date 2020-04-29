@@ -335,7 +335,7 @@ DimPlot(integrate.combined_0.3, reduction = "umap",split.by = "poptreat", label 
 dev.off()
 
 ##lam markers from evans 2014 suggest cluster 1,2,4,5 have variable lam expression
-lam_markers <- c("FBgn0261363","FBgn0032422","FBgn0004657","FBgn0034005")
+lam_markers <- c("FBgn0034005","FBgn0032422","FBgn0004657","FBgn0261363")
 lam_markers_name <- c("ItgaPS4", "atilla", "mys", "PPO3")
 lam_markers_plot_unmod <- list()
 for (l in 1:length(lam_markers)){
@@ -384,58 +384,6 @@ for (i in 0:(length(table(Idents(integrate.combined_cellcycle_0.3)))-1)){
 cellscompare <- cellscompare[-1,]
 rownames(cellscompare) <- 0:(length(table(Idents(integrate.combined_cellcycle_0.3)))-1)
 write.csv(cellscompare, file = "row_cc_0.3_col_all_0.3.csv", quote = F)
-
-#Treh and Tret1-1 expression levels
-
-pdf("bulkgeneexp_mod_treh.pdf",width = 12, height = 3.5)
-par(mfrow=c(1,3))
-par(mar=c(5,6,4,2)+0.8)
-par(mgp=c(4,1,0))
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression('                              No Infection\nFold Change after selection for resistance (log2)'),xlab =expression('Fold change after infection (log2)\n                No Selection'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC,
-       pch = 16, col = "purple")
-text("Treh", font = 3, x = -0.05+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-     y = 0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC, cex = 1.3)
-
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC,
-       pch = 16, col = "magenta")
-text("Tret1-1", font = 3, x = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-     y = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC, cex = 1.3)
-title("A", adj = 0)
-
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('        Selected for Resistance\nFold Change after infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Selection'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.FC.in.selected.populations,
-       pch = 16, col = "purple")
-text("Treh", font = 3, x = +logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-     y = -0.16+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.FC.in.selected.populations, cex = 1.3)
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.FC.in.selected.populations,
-       pch = 16, col = "magenta")
-text("Tret1-1", font = 3, x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-     y = 0.24+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.FC.in.selected.populations, cex = 1.3)
-title("B", adj = 0)
-
-
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('                  Fold Change after \nselection for resistance and infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Selection'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC,
-       pch = 16, col = "purple")
-text("Treh", font = 3, x = -0+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-     y = -0.2+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC, cex = 1.3)
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC,
-       pch = 16, col = "magenta")
-text("Tret1-1", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-     y = 0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC, cex = 1.3)
-title("C", adj = 0)
-
-dev.off()
 
 ####SECTION 7 - DATA INTEGRATION FOR ESTIMATING MEAN FOLD CHANGE ACROSS DETECTED GENES########
 
@@ -513,60 +461,114 @@ selinfvnoseluninfec_15000f <- inner_join(control_Inf_v_uninf_15000f_markers,Sel_
 selinfvnoseluninfec_15000f$avg_logFC.x <- selinfvnoseluninfec_15000f$avg_logFC.x*-1.44269407046
 selinfvnoseluninfec_15000f$avg_logFC.y <- selinfvnoseluninfec_15000f$avg_logFC.y*-1.44269407046
 
-pdf("bulkgeneexp_mod2.pdf",width = 12, height = 3.5)
-par(mfrow=c(1,3))
-par(mar=c(5,6,4,2)+0.8)
-par(mgp=c(4,1,0))
-heatscatter(selvinfection_15000f$avg_logFC.x,selvinfection_15000f$avg_logFC.y, ylab =expression('                              No Infection\nFold Change after selection for resistance (log2)'),xlab =expression('Fold change after infection (log2)\n                No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
-points(x = selvinfection_15000f[selvinfection_15000f$gene == "FBgn0261363",]$avg_logFC.x,
-       y = selvinfection_15000f[selvinfection_15000f$gene == "FBgn0261363",]$avg_logFC.y,
-       pch = 16, col = "purple")
-text("atilla", font = 3, x = -0.05+selvinfection_15000f[selvinfection_15000f$gene == "FBgn0261363",]$avg_logFC.x,
-     y = 0.15+selvinfection_15000f[selvinfection_15000f$gene == "FBgn0261363",]$avg_logFC.y, cex = 1.3)
-
-points(x = selvinfection_15000f[selvinfection_15000f$gene == "FBgn0032422",]$avg_logFC.x,
-       y = selvinfection_15000f[selvinfection_15000f$gene == "FBgn0032422",]$avg_logFC.y,
-       pch = 16, col = "magenta")
-text("PPO3", font = 3, x = 0.13+selvinfection_15000f[selvinfection_15000f$gene == "FBgn0032422",]$avg_logFC.x,
-     y = -0.18+selvinfection_15000f[selvinfection_15000f$gene == "FBgn0032422",]$avg_logFC.y, cex = 1.3)
-title("A", adj = 0)
-
-heatscatter(infvuninfec_15000f$avg_logFC.x,infvuninfec_15000f$avg_logFC.y, ylab =expression('        Selected for Resistance\nFold Change after infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Parasitism'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
-points(x = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0261363",]$avg_logFC.x,
-       y = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0261363",]$avg_logFC.y,
-       pch = 16, col = "purple")
-text("atilla", font = 3, x = +infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0261363",]$avg_logFC.x,
-     y = -0.16+infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0261363",]$avg_logFC.y, cex = 1.3)
-points(x = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0032422",]$avg_logFC.x,
-       y = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0032422",]$avg_logFC.y,
-       pch = 16, col = "magenta")
-text("PPO3", font = 3, x = infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0032422",]$avg_logFC.x,
-     y = 0.24+infvuninfec_15000f[infvuninfec_15000f$gene == "FBgn0032422",]$avg_logFC.y, cex = 1.3)
-title("B", adj = 0)
-
-
-heatscatter(selinfvnoseluninfec_15000f$avg_logFC.x,selinfvnoseluninfec_15000f$avg_logFC.y, ylab =expression('                  Fold Change after \nselection for resistance and infection (log2)'),xlab =expression('Fold change after infection (log2)\n                 No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
-points(x = selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0261363",]$avg_logFC.x,
-       y = selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0261363",]$avg_logFC.y,
-       pch = 16, col = "purple")
-text("atilla", font = 3, x = -0+selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0261363",]$avg_logFC.x,
-     y = -0.2+selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0261363",]$avg_logFC.y, cex = 1.3)
-points(x = selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0032422",]$avg_logFC.x,
-       y = selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0032422",]$avg_logFC.y,
-       pch = 16, col = "magenta")
-text("PPO3", font = 3, x = -0.18+selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0032422",]$avg_logFC.x,
-     y = 0.18+selinfvnoseluninfec_15000f[selinfvnoseluninfec_15000f$gene == "FBgn0032422",]$avg_logFC.y, cex = 1.3)
-title("C", adj = 0)
-
-dev.off()
-
 #write table of logFC
 logfc_allgenes <- cbind(infvuninfec_15000f$gene,selvinfection_15000f$avg_logFC.x,selvinfection_15000f$avg_logFC.y,infvuninfec_15000f$avg_logFC.y,selinfvnoseluninfec_15000f$avg_logFC.y)
 colnames(logfc_allgenes) <- c("Gene","Infection only FC","High Parasitism only FC","Infection FC in selected populations", "High Parasitism and Infection FC")
 write.csv(logfc_allgenes, file = "logfc_allgenes.csv")
+
+##atilla and ppo3
+
+pdf("bulkgeneexp_mod_3.pdf",width = 12, height = 3.7)
+par(mfrow=c(1,3))
+par(mar=c(5,6,4,2)+0.8)
+par(mgp=c(4,1,0))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression('                              No Infection\nFold Change after adaptation to High Parasitism (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.only.FC,
+       pch = 16, col = "purple")
+text("atilla", font = 3, x = 0.1+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.only.FC, cex = 1.3)
+
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.only.FC,
+       pch = 16, col = "magenta")
+text("PPO3", font = 3, x = -0.04+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+     y = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.only.FC, cex = 1.3)
+title("A", adj = 0)
+
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('        Adapted to High Parasitism\n    Fold Change after infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.FC.in.selected.populations,
+       pch = 16, col = "purple")
+text("atilla", font = 3, x = +logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+     y = 0.21+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.FC.in.selected.populations, cex = 1.3)
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.FC.in.selected.populations,
+       pch = 16, col = "magenta")
+text("PPO3", font = 3, x = -0.05+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+     y = -0.14+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.FC.in.selected.populations, cex = 1.3)
+title("B", adj = 0)
+
+
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('                      Fold Change after \nadaptation to High Parasitism and infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.and.Infection.FC,
+       pch = 16, col = "purple")
+text("atilla", font = 3, x = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.and.Infection.FC, cex = 1.3)
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.and.Infection.FC,
+       pch = 16, col = "magenta")
+text("PPO3", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+     y = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.and.Infection.FC, cex = 1.3)
+title("C", adj = 0)
+
+dev.off()
+
+#Treh and Tret1-1 expression levels
+
+pdf("bulkgeneexp_mod_treh.pdf",width = 12, height = 3.7)
+par(mfrow=c(1,3))
+par(mar=c(5,6,4,2)+0.8)
+par(mgp=c(4,1,0))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression('                              No Infection\nFold Change after adaptation to High Parasitism (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC,
+       pch = 16, col = "purple")
+text("Treh", font = 3, x = 0.1+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC, cex = 1.3)
+
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC,
+       pch = 16, col = "magenta")
+text("Tret1-1", font = 3, x = -0.04+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC, cex = 1.3)
+title("A", adj = 0)
+
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('        Adapted to High Parasitism\n    Fold Change after infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.FC.in.selected.populations,
+       pch = 16, col = "purple")
+text("Treh", font = 3, x = +logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = 0.21+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.FC.in.selected.populations, cex = 1.3)
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.FC.in.selected.populations,
+       pch = 16, col = "magenta")
+text("Tret1-1", font = 3, x = -0.05+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = -0.14+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.FC.in.selected.populations, cex = 1.3)
+title("B", adj = 0)
+
+
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('                      Fold Change after \nadaptation to High Parasitism and infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC,
+       pch = 16, col = "purple")
+text("Treh", font = 3, x = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC, cex = 1.3)
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC,
+       pch = 16, col = "magenta")
+text("Tret1-1", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC, cex = 1.3)
+title("C", adj = 0)
+
+dev.off()
 
 ####SECTION 8 - CLUSTERING WITH ALL DETECTED ANCHORS########
 
@@ -756,7 +758,7 @@ DotPlot(integrate.combined_lm_0.2, features = sample.markers_list_res0.3_pos_top
 
 ###lamellocyte markers dotplot
 DotPlot(object = integrate.combined_lm_0.2, features = c("FBgn0034005","FBgn0004657","FBgn0032422","FBgn0261363")) +
-  scale_x_discrete(labels=rev(c("ItgaPS4", "atilla", "mys", "PPO3")))
+  scale_x_discrete(labels=rev(c("PPO3", "atilla", "mys", "ItgaPS4")))
 
 ##compare lm to integrate.combined
 cellscompare <- ""
@@ -1000,10 +1002,11 @@ phase_table <- table(integrate.combined_0.3_mod$seurat_clusters,integrate.combin
 phase_table <- phase_table/rowSums(phase_table)
 phase_table <- melt(phase_table)
 colnames(phase_table) <- c("Cluster","Phase","Proportion")
-ggplot(data=phase_table, aes(x=factor(Cluster,levels = c( "PLASM1","PLASM2","MET","AMP","CC","LAM1","LAM2","LAM3")), y=Proportion, fill = Phase)) +
+allcellsphaseplot <- ggplot(data=phase_table, aes(x=factor(Cluster,levels = c( "PLASM1","PLASM2","MET","AMP","CC","LAM1","LAM2","LAM3")), y=Proportion, fill = Phase)) +
   geom_bar(stat="identity")+
   xlab("Cluster")+
-  ylab("Proportion")
+  ylab("Proportion")+
+  ggtitle("All cells")
 
 ##cluster phase by poptreat
 groups <- unique(integrate.combined_0.3_mod$poptreat)
@@ -1021,8 +1024,8 @@ for (g in 1:length(groups)){
     ggtitle(groups[g])
   
 }
-do.call("grid.arrange", c(phaseplots, ncol=2))
-
+phaseplotbypoptreat <- do.call("grid.arrange", c(phaseplots, ncol=2))
+plot_grid(allcellsphaseplot,phaseplotbypoptreat, ncol=1)
 
 ##compare to integrate.combined cellcycle
 cellscompare <- ""
@@ -1112,7 +1115,7 @@ DotPlot(integrate.combined_0.3_mod, features = c("FBgn0003124","FBgn0003525","FB
 ##lamellocyte markers
 ##lamellocyte markers
 lam_markers <- c("FBgn0261363","FBgn0032422","FBgn0004657","FBgn0034005")
-lam_markers_name <- c("ItgaPS4", "atilla", "mys", "PPO3")
+lam_markers_name <- c("PPO3", "atilla", "mys", "ItgaPS4")
 lam_markers_plot <- list()
 
 for (l in 1:length(lam_markers)){
@@ -1544,4 +1547,3 @@ clusterplot_sub <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=
   theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
 
 plot_grid(subdimplot,clusterplot_sub, ncol=2, rel_widths = c(1,2))
-

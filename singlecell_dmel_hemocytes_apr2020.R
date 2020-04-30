@@ -472,7 +472,7 @@ pdf("bulkgeneexp_mod_3.pdf",width = 12, height = 3.7)
 par(mfrow=c(1,3))
 par(mar=c(5,6,4,2)+0.8)
 par(mgp=c(4,1,0))
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression('                              No Infection\nFold Change after adaptation to High Parasitism (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression(' Constitutive Expression (log2 FC)\n   (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.only.FC,
@@ -487,7 +487,7 @@ text("PPO3", font = 3, x = -0.04+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261
      y = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.only.FC, cex = 1.3)
 title("A", adj = 0)
 
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('        Adapted to High Parasitism\n    Fold Change after infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('    Induced Expression (log2 FC)\n   (Evolved with High Parasitism)'),xlab ="", main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.FC.in.selected.populations,
@@ -501,8 +501,7 @@ text("PPO3", font = 3, x = -0.05+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261
      y = -0.14+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.FC.in.selected.populations, cex = 1.3)
 title("B", adj = 0)
 
-
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('                      Fold Change after \nadaptation to High Parasitism and infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('   Constitutive + Induced Expression (log2 FC)\n               (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.and.Infection.FC,
@@ -515,7 +514,8 @@ points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.
 text("PPO3", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
      y = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.and.Infection.FC, cex = 1.3)
 title("C", adj = 0)
-
+mtext("Induced expression in populations evolved without parasitism (log2 fold change)",
+      side=1,outer=T,line=-2.5,cex=0.9)
 dev.off()
 
 #Treh and Tret1-1 expression levels
@@ -524,7 +524,7 @@ pdf("bulkgeneexp_mod_treh.pdf",width = 12, height = 3.7)
 par(mfrow=c(1,3))
 par(mar=c(5,6,4,2)+0.8)
 par(mgp=c(4,1,0))
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression('                              No Infection\nFold Change after adaptation to High Parasitism (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression(' Constitutive Expression (log2 FC)\n   (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC,
@@ -539,7 +539,7 @@ text("Tret1-1", font = 3, x = -0.04+logfc_allgenes[logfc_allgenes$Gene == "FBgn0
      y = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC, cex = 1.3)
 title("A", adj = 0)
 
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('        Adapted to High Parasitism\n    Fold Change after infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Infection.FC.in.selected.populations, ylab =expression('    Induced Expression (log2 FC)\n   (Evolved with High Parasitism)'),xlab ="", main = "", bty = "L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.FC.in.selected.populations,
@@ -554,7 +554,7 @@ text("Tret1-1", font = 3, x = -0.05+logfc_allgenes[logfc_allgenes$Gene == "FBgn0
 title("B", adj = 0)
 
 
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('                      Fold Change after \nadaptation to High Parasitism and infection (log2)'),xlab =expression('  Fold change after infection (log2)\n       Adapted to No Parasitism'), main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('   Constitutive + Induced Expression (log2 FC)\n               (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC,
@@ -567,6 +567,9 @@ points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.
 text("Tret1-1", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
      y = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC, cex = 1.3)
 title("C", adj = 0)
+
+mtext("Induced expression in populations evolved without parasitism (log2 fold change)",
+      side=1,outer=T,line=-2.5,cex=0.9)
 
 dev.off()
 
@@ -964,7 +967,6 @@ lay <- rbind(c("NA",2,2,2,2,2,2,3,3,3,3,3,3),
 dimplot_data2 <- grid.arrange(grobs = list(dimplot_data,Noinflabel,Inflabel,Nosellabel,Sellabel), layout_matrix = lay)
 
 lay2 <- rbind(c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
-             c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
              c(2,2,2,2,2,1,1,1,1,1,1,1,1),
              c(2,2,2,2,2,1,1,1,1,1,1,1,1),
              c(2,2,2,2,2,1,1,1,1,1,1,1,1),
@@ -974,11 +976,12 @@ lay2 <- rbind(c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
              c(2,2,2,2,2,1,1,1,1,1,1,1,1),
              c(2,2,2,2,2,1,1,1,1,1,1,1,1),
              c(2,2,2,2,2,1,1,1,1,1,1,1,1),
-             c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
+             c(2,2,2,2,2,1,1,1,1,1,1,1,1),
+             c(2,2,2,2,2,1,1,1,1,1,1,1,1),
              c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1))
 
-pdf("integrate.combined_0.3_mod_umap.pdf", width = 9, height = 4.3)
-grid.arrange(grobs = list(dimplot_data2,dimplot_legend), layout_matrix = lay2)
+pdf("integrate.combined_0.3_mod_umap.pdf", width = 9, height = 5)
+grid.arrange(arrangeGrob(dimplot_data2, top = grid::textGrob("B", x = 0, hjust = 0,gp=gpar(fontsize=15,fontface=2))),arrangeGrob(dimplot_legend,top = grid::textGrob("A", x = 0,  hjust = 0,gp=gpar(fontsize=15,fontface=2))), layout_matrix = lay2)
 dev.off()
 
 ##compare to integrate.combined

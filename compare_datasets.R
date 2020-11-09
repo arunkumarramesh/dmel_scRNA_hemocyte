@@ -14,6 +14,7 @@ library(GO.db)
 library(org.Dm.eg.db)
 library(cowplot)
 library(gridExtra)
+library(ggpubr)
 
 #Tattikota et al. (2020) data obtained from GEO, accession GSE146596, converting to Seurat object
 
@@ -242,6 +243,8 @@ clcmpprop <- apply(clcmpprop,2,as.numeric)
 rownames(clcmpprop) <- rownames(clcmp)
 colnames(clcmpprop) <- gsub("PL.","PL-",colnames(clcmpprop))
 colnames(clcmpprop) <- gsub("LM.","LM-",colnames(clcmpprop))
+clcmpprop <- rbind(clcmpprop,0)
+rownames(clcmpprop)[8] <- "MET"
 clcmpprop <- clcmpprop[,mixedsort(colnames(clcmpprop))]
 clcmpprop <- clcmpprop[mixedsort(rownames(clcmpprop)),]
 highmatch <- rbind(highmatch, melt(clcmpprop)[melt(clcmpprop)$value > 0.5,])
@@ -303,6 +306,8 @@ clcmpprop <- clcmpprop[-c(1),]
 clcmpprop <- apply(clcmpprop,2,as.numeric)
 rownames(clcmpprop) <- rownames(clcmp)
 rownames(clcmpprop) <- mapvalues(rownames(clcmpprop),c(0,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18),c("PM1","PM2","LM1","PM3","PM4","PM5","CC2","PM8","PM9","PM6","PM7","LM2","PM10","CC1","PM11","PM12","non-hemo"))
+clcmpprop <- rbind(clcmpprop,0)
+rownames(clcmpprop)[17] <- "non-hemo"
 clcmpprop <- clcmpprop[,mixedsort(colnames(clcmpprop))]
 clcmpprop <- clcmpprop[mixedsort(rownames(clcmpprop)),]
 highmatch <- rbind(highmatch, melt(clcmpprop)[melt(clcmpprop)$value > 0.5,])
@@ -327,19 +332,31 @@ heatmap_GSE146596_GSE146596 <- pheatmap(t(clcmpprop), breaks = seq(0,1, by =0.00
 
 ##Combined heatmaps 
 
-heatmap_forlegend <- pheatmap(t(clcmpprop), breaks = seq(0,1, by =0.001), color = colorRampPalette(c('#062854','#ffffbf','#d73027'))(1000), cluster_rows = F, cluster_cols = F, main = "R: Tattikota et al. (2020), Q: Tattikota et al. (2020)", cellheight=30, cellwidth = 30)
+heatmap_forlegend <- pheatmap(t(clcmpprop), breaks = seq(0,1, by =0.001), color = colorRampPalette(c('#062854','#ffffbf','#d73027'))(1000), cluster_rows = F, cluster_cols = F, main = "R: Tattikota et al. (2020), Q: Tattikota et al. (2020)", cellheight=30, cellwidth = 30, scale = "row")
 y.grob <- textGrob("Query dataset (Q)", 
                    gp=gpar(fontface="bold", col="black", fontsize=18), rot=90)
 x.grob <- textGrob("Reference dataset (R)", 
                    gp=gpar(fontface="bold", col="black", fontsize=18))
-ccaplot <- grid.arrange(heatmap_GSE146596_GSE146596[[4]][,1:4],heatmap_integrated_hemocytes_GSE146596[[4]][,1:4],heatmap_RRCZ2_GSE146596[[4]][,1:4],heatmap_GSE146596_integrated_hemocytes[[4]][,1:4],heatmap_integrated_hemocytes_integrated_hemocytes[[4]][,1:4],heatmap_RRCZ2_integrated_hemocytes[[4]][,1:4],heatmap_GSE146596_RRCZ2[[4]][,1:4],heatmap_integrated_hemocytes_RRCZ2[[4]][,1:4],heatmap_RRCZ2_RRCZ2[[4]][,1:4], ncol = 3, left = y.grob, bottom = x.grob)
-ccalegend <- grid.arrange(heatmap_forlegend[[4]][,5])
-lay <- rbind(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,"NA"),
-             c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2),
-             c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2))
-grid.arrange(grobs = list(ccaplot,ccalegend), layout_matrix = lay)
-plot_grid(grobs = ccaplot,ccalegend, rel_widths = c(20,1))
 
-pdf(file = "cca_all.pdf", height = 12, width = 15)
+legend.grob <- textGrob("Proportion of Cells Assigned to Cluster",gp=gpar(col="black", fontsize=14))
+
+ccaplot <- grid.arrange(heatmap_GSE146596_GSE146596[[4]][,1:4],heatmap_integrated_hemocytes_GSE146596[[4]][,1:4],heatmap_RRCZ2_GSE146596[[4]][,1:4],heatmap_GSE146596_integrated_hemocytes[[4]][,1:4],heatmap_integrated_hemocytes_integrated_hemocytes[[4]][,1:4],heatmap_RRCZ2_integrated_hemocytes[[4]][,1:4],heatmap_GSE146596_RRCZ2[[4]][,1:4],heatmap_integrated_hemocytes_RRCZ2[[4]][,1:4],heatmap_RRCZ2_RRCZ2[[4]][,1:4], ncol = 3, left = y.grob, bottom = x.grob)
+plot <- ggplot(melt(clcmpprop),aes(X1,X2)) + geom_tile(aes(fill=value),color = "white") +
+  #Creating legend
+  guides(fill=guide_colorbar(title = "Proportion of Cells \nAssigned to Cluster", barheight = 23)) +
+  #Creating color range
+  scale_fill_gradientn(colors=colorRampPalette(c('#062854','#ffffbf','#d73027'))(1000),guide="colorbar") +
+  #Rotating labels
+  theme(axis.text.x = element_text(angle = 270, hjust = 0,vjust=-0.05))
+plot
+ccalegend <- as_ggplot(get_legend(plot))
+lay <- rbind(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,NA,NA,NA),
+             c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2),
+             c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2),
+             c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2),
+             c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2),
+             c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,NA,NA,NA))
+
+pdf(file = "cca_all.pdf", height = 12, width = 16)
 grid.arrange(grobs = list(ccaplot,ccalegend), layout_matrix = lay)
 dev.off()

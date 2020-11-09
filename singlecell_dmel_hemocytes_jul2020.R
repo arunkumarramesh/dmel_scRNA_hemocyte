@@ -471,7 +471,7 @@ write.csv(logfc_allgenes, file = "logfc_allgenes.csv")
 
 ##Figure 2 plots
 
-logfc_allgenes <- read.csv(file = "logfc_allgenes.csv", row.names = 1)
+logfc_allgenes <- read.csv(file = "logfc_allgenes2.csv", row.names = 1)
 
 d=data.frame(x1=c(1,1,2,2), x2=c(2,2,3,3), y1=c(1,2,1,2), y2=c(2,3,2,3), c=c('a','a','b','b'), t=c('a','b','a','b'), r=c("2: Constitutive\n (Evolved)","","3: Constitutive +\n Induced","1: Induced"))
 rec <- ggplot() + 
@@ -504,85 +504,58 @@ par(mfrow=c(1,3))
 par(mar=c(5,6,4,1)+0.8)
 #par(mgp=c(4,1,0))
 plot.new()
-title("A", adj = 0)
+title("A", adj = 0, cex.main=2)
 heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression(' 2: Constitutive Expression (log2 FC)\n     (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.6, cex.axis=1.5, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.only.FC,
-       pch = 16, col = "purple")
-text("atilla", font = 3, x = 0.1+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
-     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.only.FC, cex = 1.3)
+       pch = 16, col = "black")
+text("atilla", font = 3, x = 0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+     y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.only.FC, cex = 1.3)
 
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.only.FC,
-       pch = 16, col = "magenta")
+       pch = 16, col = "black")
 text("PPO3", font = 3, x = -0.04+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
      y = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.only.FC, cex = 1.3)
-title("B", adj = 0)
-
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('   3: Constitutive + Induced Expression (log2 FC)\n                  (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.6, cex.axis=1.5, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.and.Infection.FC,
-       pch = 16, col = "purple")
-text("atilla", font = 3, x = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
-     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.and.Infection.FC, cex = 1.3)
-points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
-       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.and.Infection.FC,
-       pch = 16, col = "magenta")
-text("PPO3", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
-     y = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.and.Infection.FC, cex = 1.3)
-title("C", adj = 0)
-mtext("1: Induced expression in populations evolved without parasitism (log2 fold change)",
-      side=1,outer=T,line=-2.2,cex=1.1, at = 0.68)
-
-vp.Left <- viewport(height=grid::unit(0.9, "npc"), width=grid::unit(0.3, "npc"), 
-                    just=c("left","top"), 
-                    y=0.95, x=0.01)
-
-# plot the ggplot using the print command
-print(rec, vp=vp.Left)
-dev.off()
-
-#Treh and Tret1-1 expression levels
-
-pdf("bulkgeneexp_mod_treh.pdf",width = 12, height = 4)
-par(mfrow=c(1,3))
-par(mar=c(5,6,4,1)+0.8)
-#par(mgp=c(4,1,0))
-plot.new()
-title("A", adj = 0)
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.only.FC, ylab =expression(' 2: Constitutive Expression (log2 FC)\n   (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
-abline(coef = c(0,1))
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC,
-       pch = 16, col = "purple")
-text("Treh", font = 3, x = 0.1+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC, cex = 1.3)
+       pch = 16, col = "black")
+text("Treh", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.only.FC, cex = 1.3)
 
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC,
-       pch = 16, col = "magenta")
-text("Tret1-1", font = 3, x = -0.04+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-     y = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC, cex = 1.3)
-title("B", adj = 0)
+       pch = 16, col = "black")
+text("Tret1-1", font = 3, x = -0.07+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = 0.08+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.only.FC, cex = 1.3)
+title("B", adj = 0, cex.main=2)
 
-heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('   3: Constitutive + Induced Expression (log2 FC)\n               (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.3, cex.axis=1.3, xlim= c(-0.9,1.5), ylim=c(-1.1,1.3))
+heatscatter(logfc_allgenes$Infection.only.FC,logfc_allgenes$Selection.and.Infection.FC, ylab =expression('   3: Constitutive + Induced Expression (log2 FC)\n                  (Evolved with High Parasitism)'),xlab ="", main = "", bty="L", cex.lab=1.6, cex.axis=1.5, xlim= c(-0.9,1.58), ylim=c(-1.1,1.3))
 abline(coef = c(0,1))
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.and.Infection.FC,
+       pch = 16, col = "black")
+text("atilla", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Infection.only.FC,
+     y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0032422",]$Selection.and.Infection.FC, cex = 1.3)
+points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+       y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.and.Infection.FC,
+       pch = 16, col = "black")
+text("PPO3", font = 3, x = -0.1+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Infection.only.FC,
+     y = 0.1+logfc_allgenes[logfc_allgenes$Gene == "FBgn0261363",]$Selection.and.Infection.FC, cex = 1.3)
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC,
-       pch = 16, col = "purple")
-text("Treh", font = 3, x = 0.12+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
-     y = -0.15+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC, cex = 1.3)
+       pch = 16, col = "black")
+text("Treh", font = 3, x = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Infection.only.FC,
+     y = -0.07+logfc_allgenes[logfc_allgenes$Gene == "FBgn0003748",]$Selection.and.Infection.FC, cex = 1.3)
 points(x = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
        y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC,
-       pch = 16, col = "magenta")
-text("Tret1-1", font = 3, x = -0.18+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
-     y = 0.13+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC, cex = 1.3)
-title("C", adj = 0)
-
+       pch = 16, col = "black")
+text("Tret1-1", font = 3, x = 0.23+logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Infection.only.FC,
+     y = logfc_allgenes[logfc_allgenes$Gene == "FBgn0050035",]$Selection.and.Infection.FC, cex = 1.3)
+title("C", adj = 0, cex.main=2)
 mtext("1: Induced expression in populations evolved without parasitism (log2 fold change)",
-      side=1,outer=T,line=-2.5,cex=0.9)
+      side=1,outer=T,line=-2.2,cex=1.1, at = 0.68)
 
 vp.Left <- viewport(height=grid::unit(0.9, "npc"), width=grid::unit(0.3, "npc"), 
                     just=c("left","top"), 
@@ -621,18 +594,33 @@ integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment
 integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
 integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
 
-ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+clusterplot15000 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, alpha = Infection)) +
   geom_bar(stat="identity")+
-  facet_wrap(~ as.numeric(Cluster), ncol=4,scales = "free")+
+  facet_wrap(~ as.numeric(Cluster), ncol=4,scales = "free")+  
   xlab("")+
   ylab("Proportion of cells") +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) +
-  scale_size_manual(name = "", values = c(0.75,1.5)) +
-  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
-  scale_fill_manual(name = "Selection regime", values = c("#5396d4","#8c8c8c"))+ 
-  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) 
+  scale_alpha_manual(name = "", values = c(0.5,1),  guide = guide_legend(override.aes = list(fill = c("#0072b2", "#d55e00"), alpha = 0.5)))+ 
+  scale_fill_manual(name = "", values = c("#0072b2", "#d55e00")) +
+  theme(legend.position="none")
+
+d=data.frame(x1=c(2.3,3.2,2.3,3.2), x2=c(2.5,3.4,2.5,3.4), y1=c(2,2,3,3), y2=c(2.8,2.8,3.8,3.8), t=c('a','b','a','b'), r=c('c','c','d','d'),s=c('','','No \nParasitism','High \nParasitism'),u=c('Infection','','No Infection',''))
+exptlegend <- ggplot() + 
+  geom_rect(data=d, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2, fill=t,alpha=r))+
+  scale_alpha_manual(name = "", values = c(1,0.5))+
+  scale_fill_manual(name = "", values = c("#0072b2","#d55e00"))+
+  theme_void()+
+  theme(legend.position="none")+
+  geom_text(data=d, aes(x=x1+(x2-x1)/2, y=(y1+(y2-y1)/2)+1.5, label=s), size=4)+
+  geom_text(data=d, aes(x=(x1+(x2-x1)/2)-0.8, y=y1+(y2-y1)/2, label=u), size=4)+
+  xlim(0.8,4)+
+  ylim(0.8,6)+
+  ggtitle("Selection Regime")+
+  theme(plot.title = element_text(hjust = 0.72, vjust = 0, face="bold"))
+
+gnew15000 <- ggdraw(clusterplot15000) + draw_plot(exptlegend,x = 0.72, y = 0, width = 0.3, height = 0.25)
 
 ####SECTION 9 - ROUND 1 LAMELLOCYTE  SUBCLUSTERING, MOVING MISCLASSIFIED CRYSTAL CELLS ########
 
@@ -803,7 +791,7 @@ phase_table <- table(integrate.combined_lm_0.2$seurat_clusters,integrate.combine
 phase_table <- phase_table/rowSums(phase_table)
 phase_table <- melt(phase_table)
 colnames(phase_table) <- c("Cluster","Phase","Proportion")
-ggplot(data=phase_table, aes(x=factor(Cluster,levels = c( "PLASM1","LAM1","LAM2","LAM3")), y=Proportion, fill = Phase)) +
+lamphase <- ggplot(data=phase_table, aes(x=factor(Cluster,levels = c( "PLASM1","LAM1","LAM2","LAM3")), y=Proportion, fill = Phase)) +
   geom_bar(stat="identity")+
   xlab("Cluster")+
   ylab("Proportion")
@@ -880,8 +868,9 @@ top100_part2<- DoHeatmap2(integrate.combined_lm_0.2_forplot, features = tail(as.
         axis.text=element_text(size=14))+
   scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
 top100_part2$data$Feature<- mapvalues(top100_part2$data$Feature, from = tail(as.character(rownames(aveexp)), n = 50), to = mapIds(org.Dm.eg.db, tail(as.character(rownames(aveexp)), n = 50), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
-
 title.grob <- textGrob("Top 100 lineage markers",  gp=gpar(fontface="bold", col="black", fontsize=18))
+
+top100markersplot <- grid.arrange(grobs = list(top100_part1,top100_part2), layout_matrix = t(matrix(c(1,1,1,1,1,2,2,2,2,2,2,2))), top = title.grob)
 
 pdf(file = "top100lineagemarkers.pdf", height = 12, width = 14)
 grid.arrange(grobs = list(top100_part1,top100_part2), layout_matrix = t(matrix(c(1,1,1,1,1,2,2,2,2,2,2,2))), top = title.grob)
@@ -909,7 +898,7 @@ write.csv(ppo3_vlnplot$data, file = "ppo3_sourcedata.csv", quote = F)
 
 ##lineage pca
 lm_dimplot_pca_legend <- DimPlot(object = integrate.combined_lm_0.2, reduction = "pca",label = T, order = rev(c( "PLASM1","LAM1","LAM2","LAM3")), cols = c('#9970ab',"#F28848","#FCBC2A", "#F0F921")) + NoLegend()
-lm_dimplot_pca <- DimPlot(object = integrate.combined_lm_0.2, reduction = "pca",label = F, order = rev(c( "PLASM1","LAM1","LAM2","LAM3")), cols = c('#9970ab',"#F28848","#FCBC2A", "#F0F921")) + NoLegend()
+lm_dimplot_pca <- DimPlot(object = integrate.combined_lm_0.2, reduction = "pca",label = F, order = rev(c( "PLASM1","LAM1","LAM2","LAM3")), cols = c('#9970ab',"#F28848","#FCBC2A", "#F0F921"))
 
 lm_dimplot_pca_data <- lm_dimplot_pca$data
 lm_dimplot_pca_data_mean <- aggregate(lm_dimplot_pca_data[, 1:2], list(lm_dimplot_pca_data$ident), mean)
@@ -917,8 +906,6 @@ lm_dimplot_pca_data_mean <- aggregate(lm_dimplot_pca_data[, 1:2], list(lm_dimplo
 lm_dimplot_pca_lineage <- lm_dimplot_pca +
   geom_line(data = lm_dimplot_pca_data_mean, aes(PC_1,PC_2), size = 1)+
   geom_point(data = lm_dimplot_pca_data_mean, aes(PC_1,PC_2), size = 2)
-
-plot_grid(lm_dimplot_pca_legend,lm_dimplot_pca_lineage,labels = "AUTO", label_size = 12, ncol = 2)
 
 ##pathway analysis first with last LAM
 sample_markers_lm_0.2_LAM1v3 <- FindMarkers(integrate.combined_lm_0.2, ident.1 = "LAM1", ident.2 = "LAM3",min.pct = 0.25, logfc.threshold = 0.25, test.use = "MAST")
@@ -970,8 +957,8 @@ go0097435<- DoHeatmap2(integrate.combined_lm_0.2_forplot, features = rownames(av
   #guides(fill=guide_legend(title="Log (2) expression"))+
   theme(plot.title = element_text(size = 16, face = "bold"),
         axis.text=element_text(size=14))+
-  scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
-#  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
+  #scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
+  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
 go0097435$data$Feature <- mapvalues(go0097435$data$Feature, from =  rownames(aveexp), to = mapIds(org.Dm.eg.db, rownames(aveexp), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
 
 x <- org.Dm.egGO2ALLEGS
@@ -989,10 +976,10 @@ go0030029<- DoHeatmap2(integrate.combined_lm_0.2_forplot, features = rownames(av
   theme(legend.position="bottom")+
   theme(plot.title = element_text(size = 16, face = "bold"),
         axis.text=element_text(size=14))+
-  scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")+
+  #scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")+
+  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")+
   theme(plot.margin=unit(c(1,1,1.5,1.2),"cm"))
-#  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
-go0030029$data$Feature <- mapvalues(go0030029$data$Feature, from =  rownames(aveexp), to = mapIds(org.Dm.eg.db, rownames(aveexp), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
+ go0030029$data$Feature <- mapvalues(go0030029$data$Feature, from =  rownames(aveexp), to = mapIds(org.Dm.eg.db, rownames(aveexp), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
 
 x <- org.Dm.egGO2ALLEGS
 Rkeys(x) <- "GO:0016203"
@@ -1008,8 +995,8 @@ go0016203<- DoHeatmap2(integrate.combined_lm_0.2_forplot, features = rownames(av
   #guides(fill=guide_legend(title="Log (2) expression"))+
   theme(plot.title = element_text(size = 16, face = "bold"),
         axis.text=element_text(size=14))+
-  scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
-#  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
+  #scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
+  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
 go0016203$data$Feature <- mapvalues(go0016203$data$Feature, from =  rownames(aveexp), to = mapIds(org.Dm.eg.db, rownames(aveexp), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
 
 x <- org.Dm.egGO2ALLEGS
@@ -1026,8 +1013,8 @@ go0022610<- DoHeatmap2(integrate.combined_lm_0.2_forplot, features = rownames(av
   #guides(fill=guide_legend(title="Log (2) expression"))+
   theme(plot.title = element_text(size = 16, face = "bold"),
         axis.text=element_text(size=14))+
-  scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
-#  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
+  #scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
+  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
 go0022610$data$Feature <- mapvalues(go0022610$data$Feature, from =  rownames(aveexp), to = mapIds(org.Dm.eg.db, rownames(aveexp), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
 
 x <- org.Dm.egGO2ALLEGS
@@ -1044,8 +1031,7 @@ go0007160<- DoHeatmap2(integrate.combined_lm_0.2_forplot, features = rownames(av
   #guides(fill=guide_legend(title="Log (2) expression"))+
   theme(plot.title = element_text(size = 16, face = "bold"),
         axis.text=element_text(size=14))+
-  scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
-#  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
+  scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")#  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
 go0007160$data$Feature <- mapvalues(go0007160$data$Feature, from =  rownames(aveexp), to = mapIds(org.Dm.eg.db, rownames(aveexp), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
 
 genelist <- mapIds(org.Dm.eg.db, rownames(LAM3vPLASM1[LAM3vPLASM1$avg_logFC < (-1.4),]), column="ENTREZID", keytype="FLYBASE", multiVals="first")
@@ -1075,8 +1061,8 @@ go0043062<- DoHeatmap2(integrate.combined_lm_0.2_forplot, features = rownames(av
   #guides(fill=guide_legend(title="Log (2) expression"))+
   theme(plot.title = element_text(size = 16, face = "bold"),
         axis.text=element_text(size=14))+
-  scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
-#  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
+  #scale_fill_gradientn(colours = rev(colorRampPalette(RColorBrewer::brewer.pal(11,"RdYlBu"))(256)),na.value = "white")
+  scale_fill_gradientn(colors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),na.value = "white")
 go0043062$data$Feature <- mapvalues(go0043062$data$Feature, from =  rownames(aveexp), to = mapIds(org.Dm.eg.db, rownames(aveexp), column="SYMBOL", keytype="FLYBASE", multiVals="first"))
 
 goright <- plot_grid(go0022610,go0043062, ncol = 1, rel_heights = c(1.55,1))
@@ -1084,6 +1070,11 @@ goleftright <- plot_grid(go0030029,goright, ncol = 2, rel_heights = c(1,1.3))
 
 ##Figure 4
 pdf("lineage_go_plot.pdf", height = 9.5, width = 11)
+plot_grid(lineage_plot, goleftright, labels = c('', 'D'), label_size = 14, ncol = 1, rel_heights = c(1, 2.2))
+dev.off()
+
+setEPS()
+postscript("lineage_go_plot.eps", height = 9.5, width = 11)
 plot_grid(lineage_plot, goleftright, labels = c('', 'D'), label_size = 14, ncol = 1, rel_heights = c(1, 2.2))
 dev.off()
 
@@ -1108,6 +1099,10 @@ lm_dimplot_lineage_cc <- lm_dimplot_cc +
   geom_line(data = lm_dimplot_data_mean_cc, aes(UMAP_1,UMAP_2), size = 1)+
   geom_point(data = lm_dimplot_data_mean_cc, aes(UMAP_1,UMAP_2), size = 2)+ 
   theme(legend.position="right")
+
+top_row <- plot_grid(lamphase, lm_dimplot_lineage_cc, labels = c('a', 'b'), label_size = 24)
+plot_grid(top_row, NULL,top100markersplot, labels = c('','','c'), label_size = 24, ncol = 1, rel_heights = c(1,0.3,4))
+
 
 cellscompare <- ""
 clustersnames <- names(table(Idents(integrate.combined_lm_0.2)))
@@ -1192,8 +1187,21 @@ integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment
 integrate.combined_cellcount$Parasitism <- factor(integrate.combined_cellcount$Parasitism,levels = c("No Parasitism","High Parasitism"))
 integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
 
+d=data.frame(x1=c(2.3,3.2,2.3,3.2), x2=c(2.5,3.4,2.5,3.4), y1=c(2,2,3,3), y2=c(2.8,2.8,3.8,3.8), t=c('a','b','a','b'), r=c('c','c','d','d'),s=c('','','No \nParasitism','High \nParasitism'),u=c('Infection','','No Infection',''))
+exptlegend <- ggplot() + 
+  geom_rect(data=d, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2, fill=t,alpha=r))+
+  scale_alpha_manual(name = "", values = c(1,0.5))+
+  scale_fill_manual(name = "", values = c("#0072b2","#d55e00"))+
+  theme_void()+
+  theme(legend.position="none")+
+  geom_text(data=d, aes(x=x1+(x2-x1)/2, y=(y1+(y2-y1)/2)+1.5, label=s), size=4)+
+  geom_text(data=d, aes(x=(x1+(x2-x1)/2)-0.8, y=y1+(y2-y1)/2, label=u), size=4)+
+  xlim(0.8,4)+
+  ylim(0.8,6)+
+  ggtitle("Selection Regime")+
+  theme(plot.title = element_text(hjust = 0.72, vjust = 0, face="bold"))
 
-clusterplot <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+clusterplot <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, alpha = Infection)) +
   geom_bar(stat="identity")+
   facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
   xlab("")+
@@ -1201,12 +1209,9 @@ clusterplot <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) +
-  scale_size_manual(name = "", values = c(0.75,1.5)) + 
-  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
-  scale_fill_manual(name = "Selection regime", values = c("#8c8c8c", "#5396d4")) + 
-  theme(legend.position = c(0.84, 1.12),legend.justification = c(0.84, 1.06)) + 
-  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) +
-  theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
+  scale_alpha_manual(name = "", values = c(0.5,1),  guide = guide_legend(override.aes = list(fill = c("#0072b2", "#d55e00"), alpha = 0.5)))+ 
+  scale_fill_manual(name = "", values = c("#0072b2", "#d55e00")) +
+  theme(legend.position="none")
 
 g <- ggplot_gtable(ggplot_build(clusterplot))
 stripr <- which(grepl('strip-t', g$layout$name))
@@ -1217,7 +1222,8 @@ for (i in stripr) {
   g$grobs[[i]]$grobs[[1]]$children[[j]]$gp$fill <- fills[k]
   k <- k+1
 }
-grid.draw(g)
+
+gnew <- ggdraw(clusterplot) + draw_plot(exptlegend,x = 0.67, y = 0.55, width = 0.3, height = 0.45)
 
 lay2 <- rbind(c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
              c(2,2,2,2,2,1,1,1,1,1,1,1,1),
@@ -1242,7 +1248,7 @@ lay2 <- rbind(c("NA","NA","NA","NA","NA",1,1,1,1,1,1,1,1),
              c(3,3,3,3,3,3,3,3,3,3,3,3,3))
 
 pdf("integrate.combined_0.3_mod_umap.pdf", width = 10, height = 10)
-grid.arrange(arrangeGrob(dimplot_data2, top = grid::textGrob("B", x = 0, hjust = 0,gp=gpar(fontsize=15,fontface=2))),arrangeGrob(dimplot_legend), arrangeGrob(g, top = grid::textGrob("C", x = 0, hjust = 0,gp=gpar(fontsize=15,fontface=2))), top = grid::textGrob("A", x = 0, hjust = 0,vjust = 2, gp=gpar(fontsize=15,fontface=2)),layout_matrix = lay2)
+grid.arrange(arrangeGrob(dimplot_data2, top = grid::textGrob("B", x = 0, hjust = 0,gp=gpar(fontsize=15,fontface=2))),arrangeGrob(dimplot_legend), arrangeGrob(gnew, top = grid::textGrob("C", x = 0, hjust = 0,gp=gpar(fontsize=15,fontface=2))), top = grid::textGrob("A", x = 0, hjust = 0,vjust = 2, gp=gpar(fontsize=15,fontface=2)),layout_matrix = lay2)
 dev.off()
 
 ##compare to integrate.combined
@@ -1331,7 +1337,7 @@ write.table(universe_sc_lm_2000, file = "universe_sc_2000.txt", quote = F, row.n
 write.table(universe_sc_lm_2000, file = "universe_sc_lm_2000.txt", quote = F, row.names = F, col.names = F)
 
 ##cell cycle and plasmatocyte markers
-DotPlot(integrate.combined_0.3_mod, features = c("FBgn0003124","FBgn0003525","FBgn0261385", "FBgn0259896", "FBgn0029167", "FBgn0243514", "FBgn0011828", "FBgn0000299")) +
+ccplasmmarkers <- DotPlot(integrate.combined_0.3_mod, features = c("FBgn0003124","FBgn0003525","FBgn0261385", "FBgn0259896", "FBgn0029167", "FBgn0243514", "FBgn0011828", "FBgn0000299")) +
   scale_x_discrete(labels=c("Col4a1","Pxn","eater","Hml","NimC1", "scra","stg","polo")) + 
   theme(axis.text.x = element_text(face = "italic"))+
   ylab("Cluster")+
@@ -1350,8 +1356,7 @@ for (l in 1:length(lam_markers)){
     NoLegend()+
     theme(plot.title = element_text(size=14, face="bold.italic"))
 }
-do.call("grid.arrange", c(lam_markers_plot, ncol=2))
-
+lammarkersall <- grid.arrange(lam_markers_plot[[1]],lam_markers_plot[[2]],lam_markers_plot[[3]],lam_markers_plot[[4]],ncol=2)
 
 ##integrate mod cluster markers
 ##plasm2 vs plasm1
@@ -1398,12 +1403,16 @@ cluster_markers$gene <- substr(cluster_markers$gene, start = 1, stop = 11)
 cluster_markers$symbol <- mapIds(org.Dm.eg.db, as.character(cluster_markers$gene), column="SYMBOL", keytype="FLYBASE", multiVals="first")
 cluster_markers_top <- cluster_markers %>% group_by(cluster) %>% top_n(n = 3, wt = avg_logFC)
 write.csv(cluster_markers, file = "cluster_markers.csv")
-DotPlot(integrate.combined_0.3_mod, features = cluster_markers_top$gene, slot = "data")+
+alltopmarkers <- DotPlot(integrate.combined_0.3_mod, features = cluster_markers_top$gene)+
   scale_x_discrete(labels=rev(cluster_markers_top$symbol)) + 
-  theme(axis.text.x = element_text(face = "italic"))
+  theme(axis.text.x = element_text(face = "italic"))+
+  ylab("Cluster")+
+  xlab("")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 DotPlot(integrate.combined_0.3_mod, features = unique(g2m.genes))
 
+plot_grid(ccplasmmarkers,alltopmarkers,lammarkersall,ncol=1, rel_heights = c(1,1,2.5), labels = "auto")
 
 ####SECTION 15 - SAVE SEURAT OBJECTS AND COUNT MATRICES   ########
 
@@ -1547,12 +1556,11 @@ integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment
 integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
 integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
 
-rep3dimplot <- DimPlot(integrate.combined_rep3_0.3, label = T)+
+rep3dimplot <- DimPlot(integrate.combined_rep3_0.3,order = rev(c( "PLASM1","PLASM2","MET","AMP","CC","LAM1","LAM2","LAM3")), cols = c('#9970ab','#8c96c6','#99d8c9','#41ae76',"#DC3220","#F28848","#FCBC2A", "#F0F921"), label = T)+
   ggtitle("B) Replicate 3")+
   theme(plot.title = element_text(hjust = 0))
 
-
-clusterplot_rep3 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+clusterplot_rep3 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, alpha = Infection)) +
   geom_bar(stat="identity")+
   facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
   xlab("")+
@@ -1560,15 +1568,13 @@ clusterplot_rep3 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) +
-  scale_size_manual(name = "", values = c(0.75,1.5)) +
-  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
-  scale_fill_manual(name = "Selection regime", values = c("#5396d4","#8c8c8c")) + 
-  theme(legend.position = c(0.84, 1.06),
-        legend.justification = c(0.84, 1.06)) + 
-  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) +
-  theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
+  scale_alpha_manual(name = "", values = c(0.5,1),  guide = guide_legend(override.aes = list(fill = c("#0072b2", "#d55e00"), alpha = 0.5)))+ 
+  scale_fill_manual(name = "", values = c("#0072b2", "#d55e00")) +
+  theme(legend.position="none")
 
-rep3dimplot_clus <- plot_grid(rep3dimplot,clusterplot_rep3, ncol=2, rel_widths = c(1,2))
+gnew_rep3 <- ggdraw(clusterplot_rep3) + draw_plot(exptlegend,x = 0.67, y = 0.6, width = 0.3, height = 0.35)
+
+rep3dimplot_clus <- plot_grid(rep3dimplot,gnew_rep3, ncol=2, rel_widths = c(1,2))
 
 ##rep1
 
@@ -1629,7 +1635,7 @@ newclusters <- left_join(seurat_clusters_rep1, seurat_clusters_mod, by = "cell")
 Idents(integrate.combined_rep1_0.3) <- newclusters$`integrate.combined_0.3_mod$seurat_clusters`
 integrate.combined_rep1_0.3$seurat_clusters <- Idents(integrate.combined_rep1_0.3)
 
-rep1dimplot <- DimPlot(integrate.combined_rep1_0.3, label = T)+
+rep1dimplot <- DimPlot(integrate.combined_rep1_0.3, order = rev(c( "PLASM1","PLASM2","MET","AMP","CC","LAM1","LAM2","LAM3")), cols = c('#9970ab','#8c96c6','#99d8c9','#41ae76',"#DC3220","#F28848","#FCBC2A", "#F0F921"), label = T)+
   ggtitle("A) Replicate 1")+
   theme(plot.title = element_text(hjust = 0))
 
@@ -1647,7 +1653,7 @@ integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment
 integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
 integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
 
-clusterplot_rep1 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+clusterplot_rep1 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, alpha = Infection)) +
   geom_bar(stat="identity")+
   facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
   xlab("")+
@@ -1655,15 +1661,13 @@ clusterplot_rep1 <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) +
-  scale_size_manual(name = "", values = c(0.75,1.5)) +
-  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
-  scale_fill_manual(name = "Selection regime", values = c("#5396d4","#8c8c8c")) + 
-  theme(legend.position = c(0.84, 1.06),
-        legend.justification = c(0.84, 1.06)) + 
-  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) +
-  theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
+  scale_alpha_manual(name = "", values = c(0.5,1),  guide = guide_legend(override.aes = list(fill = c("#0072b2", "#d55e00"), alpha = 0.5)))+ 
+  scale_fill_manual(name = "", values = c("#0072b2", "#d55e00")) +
+  theme(legend.position="none")
 
-rep1dimplot_clus <- plot_grid(rep1dimplot,clusterplot_rep1, ncol=2, rel_widths = c(1,2))
+gnew_rep1 <- ggdraw(clusterplot_rep1) + draw_plot(exptlegend,x = 0.67, y = 0.6, width = 0.3, height = 0.35)
+
+rep1dimplot_clus <- plot_grid(rep1dimplot,gnew_rep1, ncol=2, rel_widths = c(1,2))
 
 ##subsample cell to min library
 
@@ -1744,7 +1748,7 @@ newclusters <- left_join(seurat_clusters_sub, seurat_clusters_mod, by = "cell")
 Idents(integrate.combined_sub_0.3) <- newclusters$`integrate.combined_0.3_mod$seurat_clusters`
 integrate.combined_sub_0.3$seurat_clusters <- Idents(integrate.combined_sub_0.3)
 
-subdimplot <- DimPlot(integrate.combined_sub_0.3, label = T)+
+subdimplot <- DimPlot(integrate.combined_sub_0.3, order = rev(c( "PLASM1","PLASM2","MET","AMP","CC","LAM1","LAM2","LAM3")), cols = c('#9970ab','#8c96c6','#99d8c9','#41ae76',"#DC3220","#F28848","#FCBC2A", "#F0F921"), label = T)+
   ggtitle("C) Subsample cells")+
   theme(plot.title = element_text(hjust = 0))
 
@@ -1762,7 +1766,7 @@ integrate.combined_cellcount <- separate(integrate.combined_cellcount, Treatment
 integrate.combined_cellcount$Parasitism <- as.factor(integrate.combined_cellcount$Parasitism)
 integrate.combined_cellcount$Infection <- factor(integrate.combined_cellcount$Infection, levels = c("No Infection", "Infection"))
 
-clusterplot_sub <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, color = Infection, size= Infection)) +
+clusterplot_sub <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=Prop, fill = Parasitism, alpha = Infection)) +
   geom_bar(stat="identity")+
   facet_wrap(~ factor(Cluster,levels = rev(c("LAM3","LAM2","LAM1","AMP","MET","CC","PLASM2","PLASM1"))), ncol=5,scales = "free", as.table = F) +
   xlab("")+
@@ -1770,16 +1774,14 @@ clusterplot_sub <- ggplot(data=integrate.combined_cellcount, aes(x=Treatment, y=
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank()) +
-  scale_size_manual(name = "", values = c(0.75,1.5)) +
-  scale_color_manual(name = "Treatment", values = c("black", "red"))+ 
-  scale_fill_manual(name = "Selection regime", values = c("#5396d4","#8c8c8c")) + 
-  theme(legend.position = c(0.84, 1.06),
-        legend.justification = c(0.84, 1.06)) + 
-  guides(color = guide_legend(override.aes = list(fill = "white")), size = F) +
-  theme(legend.margin = margin(0.4,0,0,0, unit="cm"))
+  scale_alpha_manual(name = "", values = c(0.5,1),  guide = guide_legend(override.aes = list(fill = c("#0072b2", "#d55e00"), alpha = 0.5)))+ 
+  scale_fill_manual(name = "", values = c("#0072b2", "#d55e00")) +
+  theme(legend.position="none")
 
-subdimplot_clus <- plot_grid(subdimplot,clusterplot_sub, ncol=2, rel_widths = c(1,2))
+gnew_sub <- ggdraw(clusterplot_sub) + draw_plot(exptlegend,x = 0.67, y = 0.6, width = 0.3, height = 0.35)
 
-pdf("subsample.pdf", height = 13, width = 12)
+subdimplot_clus <- plot_grid(subdimplot,gnew_sub, ncol=2, rel_widths = c(1,2))
+
+pdf("subsample.pdf", height = 13, width = 15)
 plot_grid(rep1dimplot_clus,rep3dimplot_clus,subdimplot_clus, ncol = 1)
 dev.off()

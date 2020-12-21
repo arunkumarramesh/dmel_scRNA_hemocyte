@@ -470,19 +470,25 @@ colnames(logfc_allgenes) <- c("Gene","Infection only FC","High Parasitism only F
 write.csv(logfc_allgenes, file = "logfc_allgenes.csv")
 
 ##Figure 2 plots
-
 logfc_allgenes <- read.csv(file = "logfc_allgenes2.csv", row.names = 1)
 
-d=data.frame(x1=c(1,1,2,2), x2=c(2,2,3,3), y1=c(1,2,1,2), y2=c(2,3,2,3), c=c('a','a','b','b'), t=c('a','b','a','b'), r=c("2: Constitutive\n (Evolved)","","3: Constitutive +\n Induced","1: Induced"))
+d=data.frame(x1=c(1,1,2,2), x2=c(2,2,3,3), y1=c(1,2,1,2), y2=c(2,3,2,3), c=c('a','a','b','b'), t=c('a','b','a','b'))
 rec <- ggplot() + 
-  geom_rect(data=d, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2), color = "black", fill = "white", size=0.5, linetype = 3) +
-  geom_text(data=d, aes(x=x1+(x2-x1)/2, y=y1+(y2-y1)/2, label=r), size=4) +
+  geom_rect(data=d, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2), color = NA, fill = "white", size=0.5, linetype = 3) +
   geom_text(data=d, aes(label = "No Infection", x = 1.5, y = 3.2), size = 4) +
   geom_text(data=d, aes(label = "Infection", x = 2.5, y = 3.2), size = 4) +
   geom_text(data=d, aes(label = "No Parasitism", x = 0.8, y = 2.5, angle = 90,), size = 4) +
   geom_text(data=d, aes(label = "High Parasitism", x = 0.8, y = 1.5, angle = 90), size = 4) +
   geom_text(data=d, aes(label = "Selection regime", x = 0.6, y = 2, angle = 90, fontface  = "bold"), size = 4) +
   geom_text(data=d, aes(label = "Treatment", x = 2, y = 3.4, fontface  = "bold"), size = 4) +
+  geom_segment(aes(x=1.4,y=2.4,xend=1.4,yend=1.4),arrow = arrow(length = unit(0.03, "npc"), ends = "both"),size=1.3)+
+  geom_segment(aes(x=1.5,y=2.5,xend=2.5,yend=1.5),arrow = arrow(length = unit(0.03, "npc"), ends = "both"),size=1.3)+
+  geom_segment(aes(x=1.5,y=2.6,xend=2.5,yend=2.6),arrow = arrow(length = unit(0.03, "npc"), ends = "both"),size=1.3)+
+  geom_segment(aes(x=1,y=1,xend=1,yend=2.8))+
+  geom_segment(aes(x=1.2,y=3,xend=3,yend=3))+
+  geom_text(aes(x = 1.2, y = 1.9,angle = 90,label = "Panel B, Y axis\n2: Evolved Constitutive response"), size = 4)+
+  geom_text(aes(x = 2, y = 2.8,label = "X axes\n1: Induced by Infection"), size = 4)+
+  geom_text(aes(x = 2.15, y = 2.15,angle = 312,label = "Panel C, Y axis\n3: Induced + Constitutive"), size = 4)+
   theme(axis.title=element_blank(),
         axis.text=element_blank(),
         axis.ticks=element_blank())+
@@ -495,6 +501,7 @@ rec <- ggplot() +
     legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
   )+ 
   theme(legend.position = "none")
+
 
 ##atilla and ppo3
 
@@ -561,9 +568,10 @@ vp.Left <- viewport(height=grid::unit(0.9, "npc"), width=grid::unit(0.3, "npc"),
                     just=c("left","top"), 
                     y=0.95, x=0.01)
 
-# plot the ggplot using the print command
+
 print(rec, vp=vp.Left)
 dev.off()
+
 
 ####SECTION 8 - CLUSTERING WITH ALL DETECTED ANCHORS########
 

@@ -2,6 +2,11 @@ library(shiny)
 library(Seurat)
 library(ggplot2)
 
+#load(file="../GSE148826_intergrated_hemocytes.Robj")
+#integrated_hemocytes <- DietSeurat(integrated_hemocytes, counts = F,misc = F)
+#integrated_hemocytes <- integrated_hemocytes[,sample(1:19344, 15000, replace=F)]
+#save(integrated_hemocytes,file="integrated_hemocytes.Robj")
+
 load(file="integrated_hemocytes.Robj")
 
 ui <- fluidPage(

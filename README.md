@@ -1,4 +1,6 @@
-# Scripts for Constitutive activation of cellular immunity underlies the evolution of resistance to infection in Drosophila
+# Drosophila larval hemocyte single cell RNA-seq
+Scripts for "Constitutive activation of cellular immunity underlies the evolution of resistance to infection in Drosophila"
+
 Alexandre B Leitão*, Ramesh Arunkumar*, Jonathan P Day,Emma M Geldman,Ismaël Morin-Poulard, Michèle Crozatier, Francis M Jiggins 
 https://doi.org/10.7554/eLife.59095
 

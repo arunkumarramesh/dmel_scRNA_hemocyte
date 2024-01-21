@@ -10,12 +10,23 @@ library(ggplot2)
 load(file="integrated_hemocytes.Robj")
 
 ui <- fluidPage(
-  headerPanel('Single cell hemocyte D.mel'),
+  headerPanel('Single cell RNA-seq of Drosophila larval hemocytes'),
   sidebarPanel(
     textAreaInput('gene', 'Input gene names one at a time', value = "", width = NULL, placeholder = 'e.g. FBgn0032422'),
     actionButton("do", "Evaluate!")
   ),
-  mainPanel(plotOutput("plot1")
+  mainPanel(
+    p("Goal is to identify genes that are constitutively activated following long-term parasite exposure and those that are transiently induced by parasite infection"),
+    p("Input gene name as Flybase gene ID, which can be obtained from https://flybase.org/"),
+    p("PLASM1-2: plasmatocytes, LAM1-2: immature lamellocytes, LAM3: mature lamellocytes, CC: crystal cells, MET: metabolism, AMP: anti-microbial peptide"),
+    p("Selection: 26 generations of selection under high parasite (Leptopilina boulardi) pressure"),
+    p("No Selection: 26 generations under standard conditions without parasite exposure"),
+    p("Infection: Infection with parasitic wasp"),
+    p("No Infection: No infection control"),
+    p("Expression level: Log-normalised read counts from Seurat V3"),
+    p("Full data available at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE148826"),
+    p("Please post questions at https://github.com/arunkumarramesh/dmel_scRNA_hemocyte"),
+    plotOutput("plot1")
   )
 )
 
@@ -35,6 +46,3 @@ server <- function(input, output,session) {
 }
 
 shinyApp(ui, server)
-
-
-

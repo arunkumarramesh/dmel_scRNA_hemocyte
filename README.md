@@ -25,16 +25,19 @@ also in https://doi.org/10.7554/eLife.59095
 # Gene expression browser
 https://arunkuma.shinyapps.io/singlecell_app
 
-    p("Goal is to identify genes that are constitutively activated following long-term parasite exposure and those that are transiently induced by parasite infection"),
-    p("Input gene name as Flybase gene ID, which can be obtained from https://flybase.org/"),
-    p("PLASM1-2: plasmatocytes, LAM1-2: immature lamellocytes, LAM3: mature lamellocytes, CC: crystal cells, MET: metabolism, AMP: anti-microbial peptide"),
-    p("Selection: 26 generations of selection under high parasite (Leptopilina boulardi) pressure"),
-    p("No Selection: 26 generations under standard conditions without parasite exposure"),
-    p("Infection: Infection with parasitic wasp"),
-    p("No Infection: No infection control"),
-    p("Expression level: Log-normalised read counts from Seurat V3"),
-    p("Full data available at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE148826"),
-    p("Please post questions at https://github.com/arunkumarramesh/dmel_scRNA_hemocyte"),
+Goal is to identify genes that are constitutively activated following long-term parasite exposure and those that are transiently induced by parasite infection
+
+- Input gene name as Flybase gene ID, which can be obtained from https://flybase.org/
+- PLASM1-2: plasmatocytes, LAM1-2: immature lamellocytes, LAM3: mature lamellocytes, CC: crystal cells, MET: metabolism, AMP: anti-microbial peptide
+- Selection: 26 generations of selection under high parasite (Leptopilina boulardi) pressure
+- No Selection: 26 generations under standard conditions without parasite exposure
+- Infection: Infection with parasitic wasp
+- No Infection: No infection control
+- Expression level: Log-normalised read counts from Seurat V3
+  
+Full data available at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE148826
+
+Please post questions at https://github.com/arunkumarramesh/dmel_scRNA_hemocyte
 
 
 <img width="1391" alt="Screenshot 2024-01-20 at 21 53 57" src="https://github.com/arunkumarramesh/dmel_scRNA_hemocyte/assets/23363383/e7e1b78e-22db-42a7-b92a-c70bb0cf9505">

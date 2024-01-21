@@ -15,10 +15,18 @@ DoHeatmap2.R - Modified Seurat v3 DoHeatmap function for plotting
 
 compare_datasets.R - Comparing three Drosophilia single cell hemocyte datasets
 
+app.R - Shiny app for single cell gene expression browser
+
 # Overview of Seurat clustering pipeline 
 also in https://doi.org/10.7554/eLife.59095
 
 ![lax_59095_elife-59095-fig3-figsupp6-v2 tif](https://github.com/arunkumarramesh/dmel_scRNA_hemocyte/assets/23363383/7558021d-a96e-40fc-bb7e-738795f489c8)
+
+# Gene expression browser
+https://arunkuma.shinyapps.io/singlecell_app
+
+<img width="1391" alt="Screenshot 2024-01-20 at 21 53 57" src="https://github.com/arunkumarramesh/dmel_scRNA_hemocyte/assets/23363383/e7e1b78e-22db-42a7-b92a-c70bb0cf9505">
+
 
 
 

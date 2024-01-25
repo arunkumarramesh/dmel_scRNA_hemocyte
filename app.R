@@ -10,7 +10,7 @@ library(ggplot2)
 load(file="integrated_hemocytes.Robj")
 
 ui <- fluidPage(
-  headerPanel('Single cell RNA-seq of Drosophila larval hemocytes'),
+  headerPanel('Drosophila larval hemocytes gene expression browser'),
   sidebarPanel(
     textAreaInput('gene', 'Input gene names one at a time', value = "", width = NULL, placeholder = 'e.g. FBgn0032422'),
     actionButton("do", "Evaluate!")
@@ -24,6 +24,7 @@ ui <- fluidPage(
     p("Infection: Infection with parasitic wasp"),
     p("No Infection: No infection control"),
     p("Expression level: Log-normalised read counts from Seurat V3"),
+    p("Subsampled 15000 cells from the total of 19344 cells to fit with memory limits for Shiny app hosting"),
     p("Full data available at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE148826"),
     p("Please post questions at https://github.com/arunkumarramesh/dmel_scRNA_hemocyte"),
     plotOutput("plot1")

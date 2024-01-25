@@ -26,13 +26,3 @@ also in https://doi.org/10.7554/eLife.59095
 https://arunkuma.shinyapps.io/singlecelldmel/
 
 <img width="1400" alt="Screenshot 2024-01-25 at 16 44 31" src="https://github.com/arunkumarramesh/dmel_scRNA_hemocyte/assets/23363383/9233d571-6fd4-4da0-a657-b07c85b3c908">
-
-
-
-
-
-<img width="1391" alt="Screenshot 2024-01-20 at 21 53 57" src="https://github.com/arunkumarramesh/dmel_scRNA_hemocyte/assets/23363383/e7e1b78e-22db-42a7-b92a-c70bb0cf9505">
-
-
-
-
